@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beyond the Horizon: The New Age of Black Holes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04050b;--ink:#eef1ff;--dim:#9aa3c7;--amber:#ff9a3c;--gold:#ffc857;--cyan:#4fd8ff;--violet:#b197ff;--red:#ff5a6e;--line:rgba(255,255,255,.12);
+--head:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;--body:'Inter',ui-sans-serif,system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);overflow:hidden}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#0b0e22 0%,#04050b 70%)}
+#stage{position:relative;width:1600px;height:900px;flex:none;transform-origin:center center;overflow:hidden;
+background:radial-gradient(ellipse at 70% 20%,rgba(255,154,60,.07),transparent 50%),radial-gradient(ellipse at 15% 85%,rgba(79,216,255,.06),transparent 50%),#05060e}
+#stars{position:absolute;inset:0;width:100%;height:100%}
+#progress{position:absolute;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--amber),var(--gold));box-shadow:0 0 12px var(--amber);transition:width .6s ease;z-index:20}
+#vprog{position:absolute;top:4px;left:0;height:2px;width:0;background:rgba(79,216,255,.7);z-index:20}
+.brand{position:absolute;top:22px;left:40px;font:500 15px var(--head);letter-spacing:.22em;text-transform:uppercase;color:var(--dim);z-index:15}
+.brand b{color:var(--amber)}
+.counter{position:absolute;top:22px;right:40px;font:500 15px var(--head);color:var(--dim);z-index:15;letter-spacing:.1em}
+.slide{position:absolute;inset:0;padding:70px 70px 110px;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .8s ease,transform .9s ease,visibility 0s linear .9s}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .8s ease,transform .9s ease}
+h1,h2,h3{font-family:var(--head);margin:0;font-weight:700;letter-spacing:-.01em}
+h2{font-size:54px;line-height:1.05}
+.kicker{font:600 15px var(--head);letter-spacing:.25em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.sub{font-size:22px;color:var(--dim);margin-top:12px;max-width:900px;line-height:1.4}
+.chip{display:inline-block;padding:7px 14px;border:1px solid var(--line);border-radius:30px;font-size:16px;color:var(--ink);background:rgba(255,255,255,.04)}
+.btn{font:600 16px var(--head);color:var(--ink);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:10px 18px;cursor:pointer;transition:.25s}
+.btn:hover{background:rgba(255,154,60,.18);border-color:var(--amber)}
+.btn.on{background:var(--amber);color:#1a0d00;border-color:var(--amber)}
+.note{font-size:13px;color:#6f789c}
+.glass{background:rgba(12,15,34,.72);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(6px)}
+.hl{transition:box-shadow .5s,border-color .5s,opacity .5s}
+.hl.pulse{border-color:var(--amber)!important;box-shadow:0 0 0 2px rgba(255,154,60,.5),0 0 40px rgba(255,154,60,.35)}
+#bar{position:absolute;left:0;right:0;bottom:0;height:78px;display:flex;align-items:center;gap:10px;padding:0 30px;background:linear-gradient(0deg,rgba(3,4,10,.95),rgba(3,4,10,.0));z-index:30}
+#bar .ctl{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;padding:0}
+#bar .wide{width:auto;border-radius:24px;padding:0 16px;height:42px;font-size:14px}
+#bar .sp{flex:1}
+#bar label{font:500 13px var(--head);color:var(--dim);display:flex;align-items:center;gap:8px}
+input[type=range]{accent-color:var(--amber)}
+#cap{position:absolute;left:50%;transform:translateX(-50%);bottom:64px;width:1240px;text-align:center;font-size:15px;line-height:1.35;color:#dfe4ff;text-shadow:0 2px 8px #000;z-index:25;opacity:0;transition:opacity .4s;pointer-events:none;background:rgba(0,0,0,.55);padding:3px 14px;border-radius:8px}
+#cap.show{opacity:1}
+#script{position:absolute;top:0;right:0;bottom:0;width:470px;transform:translateX(100%);transition:transform .5s ease;z-index:40;padding:28px 28px 100px;overflow:auto;background:rgba(6,8,20,.96);border-left:1px solid var(--line)}
+#script.open{transform:none}
+#script h3{font-size:22px;margin-bottom:6px}
+#script .seg{padding:12px 14px;border-radius:12px;margin:8px 0;font-size:16px;line-height:1.5;color:var(--dim);cursor:pointer;border:1px solid transparent}
+#script .seg.cur{color:var(--ink);background:rgba(255,154,60,.1);border-color:rgba(255,154,60,.4)}
+#srcpanel{position:absolute;inset:60px 120px 110px;z-index:45;display:none;padding:30px 36px;overflow:auto}
+#srcpanel.open{display:block}
+.srclist{columns:2;column-gap:40px;font-size:14px;line-height:1.45;margin:0;padding-left:22px}
+.srclist li{margin-bottom:7px;break-inside:avoid;color:var(--dim)}
+.srclist a{color:var(--cyan);text-decoration:none;word-break:break-all}
+#s1 canvas{position:absolute;inset:0}
+#s1 .title{position:absolute;left:0;right:0;top:300px;text-align:center;pointer-events:none}
+#s1 h1{font-size:92px;line-height:1;text-shadow:0 0 40px rgba(0,0,0,.9)}
+#s1 .ep{font:600 18px var(--head);letter-spacing:.35em;color:var(--gold);text-transform:uppercase}
+#s1 .tag{font-size:24px;color:#c9cff0;margin-top:14px}
+.eye{position:absolute;width:330px;padding:20px 22px;border-radius:20px;border:1px solid var(--line);background:rgba(8,10,24,.75);transition:.6s}
+.eye .k{font:700 13px var(--head);letter-spacing:.2em;text-transform:uppercase}
+.eye h3{font-size:26px;margin:6px 0 4px}
+.eye p{margin:0;color:var(--dim);font-size:16px;line-height:1.35}
+.eye .ico{position:absolute;right:18px;top:16px;width:44px;height:44px}
+.eye.dim{opacity:.28}
+.eye.on{transform:scale(1.06);box-shadow:0 0 50px var(--c)}
+#start{position:absolute;left:50%;top:640px;transform:translateX(-50%);font:700 22px var(--head);padding:18px 38px;border-radius:50px;border:0;cursor:pointer;color:#1b0e00;background:linear-gradient(90deg,var(--amber),var(--gold));box-shadow:0 0 40px rgba(255,154,60,.6);z-index:5;animation:breathe 2.4s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:0 0 70px rgba(255,154,60,.9)}}
+#start.gone{display:none}
+.two{display:grid;grid-template-columns:760px 1fr;gap:50px;align-items:center;height:620px;margin-top:10px}
+.part{cursor:pointer;transition:opacity .4s,filter .4s}
+svg .part.dimp{opacity:.25}
+svg .part.lit{filter:drop-shadow(0 0 14px #fff)}
+.card{padding:34px 36px;min-height:330px}
+.card .k{font:700 14px var(--head);letter-spacing:.2em;text-transform:uppercase;color:var(--amber)}
+.card h3{font-size:42px;margin:8px 0 14px}
+.card p{font-size:22px;line-height:1.45;color:#cfd5f5;margin:0 0 14px}
+.card .ana{font-size:19px;color:var(--gold)}
+.plist{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+#tl{width:1460px;height:150px;margin-top:6px}
+.tabs{display:flex;gap:10px;margin:6px 0 10px}
+.panes{position:relative;height:430px}
+.pane{position:absolute;inset:0;opacity:0;visibility:hidden;transition:.6s;display:grid;grid-template-columns:840px 1fr;gap:34px}
+.pane.show{opacity:1;visibility:visible}
+.pane svg{width:840px;height:430px}
+.facts{display:flex;flex-direction:column;gap:14px;justify-content:center}
+.fact{padding:18px 22px}
+.fact b{font:700 30px var(--head);color:var(--gold);display:block}
+.fact span{font-size:17px;color:#cfd5f5;line-height:1.35}
+.quote{font-size:19px;line-height:1.45;color:#e6e9ff;font-style:italic}
+.quote cite{display:block;font-style:normal;color:var(--amber);font-size:15px;margin-top:6px}
+.split{display:grid;grid-template-columns:900px 1fr;gap:40px;margin-top:18px;height:640px}
+.vis{position:relative;border-radius:24px;overflow:hidden}
+.vis canvas,.vis svg{display:block}
+.side{display:flex;flex-direction:column;gap:16px}
+.ctrls{display:flex;gap:10px;flex-wrap:wrap}
+table.syn{width:100%;border-collapse:separate;border-spacing:0 10px;margin-top:22px;font-size:19px}
+table.syn th{text-align:left;font:600 14px var(--head);letter-spacing:.15em;text-transform:uppercase;color:var(--dim);padding:0 18px}
+table.syn td{padding:18px;background:rgba(12,15,34,.75);border-top:1px solid var(--line);border-bottom:1px solid var(--line);line-height:1.3;transition:.4s}
+table.syn td:first-child{border-left:4px solid var(--c);border-radius:14px 0 0 14px;font:700 20px var(--head)}
+table.syn td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0;color:var(--gold)}
+table.syn tr.row{cursor:pointer}
+table.syn tr.row:hover td,table.syn tr.row.pulse td{background:rgba(255,154,60,.16)}
+.qcards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:26px}
+.qc{padding:28px;min-height:250px}
+.qc .n{font:700 64px var(--head);color:transparent;-webkit-text-stroke:1.5px var(--amber)}
+.qc h3{font-size:28px;margin:6px 0 10px}
+.qc p{color:#cfd5f5;font-size:18px;line-height:1.4;margin:0}
+.quiz{display:grid;grid-template-columns:1fr 330px;gap:40px;margin-top:26px}
+.qbox{padding:36px 40px;min-height:560px}
+.qbox h3{font-size:34px;line-height:1.2;margin-bottom:26px}
+.opt{display:block;width:100%;text-align:left;margin:12px 0;font:500 21px var(--body);padding:16px 22px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);cursor:pointer;transition:.25s}
+.opt:hover{border-color:var(--amber)}
+.opt.right{background:rgba(79,216,140,.2);border-color:#4fd88c}
+.opt.wrong{background:rgba(255,90,110,.18);border-color:var(--red)}
+.fb{font-size:19px;line-height:1.45;min-height:60px;margin-top:16px;color:var(--gold)}
+</style>
+<script src="a/00.js"></script>
+<script src="a/01.js"></script>
+<script src="a/02.js"></script>
+<script src="a/03.js"></script>
+<script src="a/04.js"></script>
+<script src="a/05.js"></script>
+<script src="a/06.js"></script>
+<script src="a/07.js"></script>
+<script src="a/08.js"></script>
+<script src="a/09.js"></script>
+<script src="a/10.js"></script>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+<canvas id="stars" width="1600" height="900"></canvas>
+<div id="progress"></div><div id="vprog"></div>
+<div class="brand"><b>●</b> Beyond the Horizon · the new age of black holes</div>
+<div class="counter" id="counter">01 / 11</div>
+
+<section class="slide" id="s1" data-title="Cold open">
+ <canvas id="c1" width="1600" height="900"></canvas>
+ <div class="title"><div class="ep">Episode 12 · October 2026</div><h1>Beyond the Horizon</h1><div class="tag">The new age of black holes</div></div>
+ <div class="eye" data-eye="jwst" style="left:60px;top:90px;--c:rgba(255,90,110,.45)"><svg class="ico" viewBox="0 0 44 44"><g fill="none" stroke="#ff5a6e" stroke-width="2"><polygon points="22,4 37,13 37,31 22,40 7,31 7,13"/><polygon points="22,13 29,17.5 29,26.5 22,31 15,26.5 15,17.5"/></g></svg><div class="k" style="color:var(--red)">Infrared</div><h3>Webb (JWST)</h3><p>Sees heat glow from the universe's first billion years.</p></div>
+ <div class="eye" data-eye="eht" style="right:60px;top:90px;--c:rgba(255,200,87,.45)"><svg class="ico" viewBox="0 0 44 44"><g fill="none" stroke="#ffc857" stroke-width="2"><path d="M8 26a14 14 0 0 1 28 0z"/><path d="M22 26v12M14 40h16"/></g></svg><div class="k" style="color:var(--gold)">Radio</div><h3>Event Horizon Telescope</h3><p>Dishes worldwide act as one Earth-sized camera.</p></div>
+ <div class="eye" data-eye="ixpe" style="left:60px;bottom:120px;--c:rgba(177,151,255,.45)"><svg class="ico" viewBox="0 0 44 44"><g fill="none" stroke="#b197ff" stroke-width="2"><circle cx="22" cy="22" r="15"/><path d="M12 32L32 12M16 36L36 16M8 28L28 8"/></g></svg><div class="k" style="color:var(--violet)">X-ray polarization</div><h3>IXPE</h3><p>"Polarized sunglasses" for X-rays reveal the shape of hot gas.</p></div>
+ <div class="eye" data-eye="lvk" style="right:60px;bottom:120px;--c:rgba(79,216,255,.45)"><svg class="ico" viewBox="0 0 44 44"><path d="M2 22q5-14 10 0t10 0 10 0 10 0" fill="none" stroke="#4fd8ff" stroke-width="2.4"/></svg><div class="k" style="color:var(--cyan)">Gravitational waves</div><h3>LIGO · Virgo · KAGRA</h3><p>Laser rulers that feel space ripple when black holes collide.</p></div>
+ <button id="start">▶ Start the episode</button>
+</section>
+
+<section class="slide" id="s2" data-title="Anatomy">
+ <div class="kicker">Black hole basics</div><h2>What's inside a black hole?</h2>
+ <div class="two">
+  <svg id="anat" viewBox="0 0 760 600" width="760" height="600">
+   <defs>
+    <linearGradient id="jetg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fd8ff" stop-opacity="0"/><stop offset="1" stop-color="#9eeaff" stop-opacity=".9"/></linearGradient>
+    <linearGradient id="jetg2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#4fd8ff" stop-opacity="0"/><stop offset="1" stop-color="#9eeaff" stop-opacity=".9"/></linearGradient>
+    <radialGradient id="diskg" cx=".5" cy=".5" r=".5"><stop offset=".25" stop-color="#fff2c8"/><stop offset=".5" stop-color="#ffb347"/><stop offset=".8" stop-color="#ff6a1a" stop-opacity=".7"/><stop offset="1" stop-color="#ff3d00" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sing"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+   </defs>
+   <g class="part" data-part="jets"><polygon points="370,300 390,300 420,0 340,0" fill="url(#jetg)"/><polygon points="370,300 390,300 420,600 340,600" fill="url(#jetg2)"/></g>
+   <g class="part" data-part="disk"><ellipse cx="380" cy="300" rx="340" ry="62" fill="url(#diskg)"/><path d="M262 300 A118 140 0 0 1 498 300" fill="none" stroke="#ffb347" stroke-width="14" stroke-opacity=".75"/></g>
+   <g class="part" data-part="photon"><circle cx="380" cy="300" r="112" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="7 7"><animateTransform attributeName="transform" type="rotate" from="0 380 300" to="360 380 300" dur="30s" repeatCount="indefinite"/></circle></g>
+   <g class="part" data-part="horizon"><circle cx="380" cy="300" r="82" fill="#000" stroke="#ff9a3c" stroke-opacity=".35" stroke-width="2"/></g>
+   <g class="part" data-part="diskfront"><ellipse cx="380" cy="318" rx="150" ry="20" fill="#ffcf7a" fill-opacity=".55"/></g>
+   <g class="part" data-part="singularity"><circle cx="380" cy="300" r="22" fill="url(#sing)"/><circle cx="380" cy="300" r="4" fill="#fff"/></g>
+   <g font-family="Space Grotesk" font-size="15" fill="#9aa3c7"><text x="430" y="40">jet</text><text x="620" y="262">accretion disk</text><text x="505" y="210">photon sphere</text></g>
+  </svg>
+  <div>
+   <div class="card glass hl" id="acard"><div class="k" id="ak">Tap a part</div><h3 id="ah">Anatomy of the dark</h3><p id="ap">Five parts, from the center outward. Hover or tap any part of the diagram.</p><div class="ana" id="aa"></div></div>
+   <div class="plist" id="plist"></div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s3" data-title="Baby giants (JWST)">
+ <div class="kicker" style="color:var(--red)">Webb · infrared</div><h2>Baby giants in the early universe</h2>
+ <svg id="tl" viewBox="0 0 1460 150" class="hl"></svg>
+ <div class="tabs"><button class="btn on" data-tab="0">① Three in one galaxy</button><button class="btn" data-tab="1">② How were they born?</button><button class="btn" data-tab="2">③ Too big for their homes</button></div>
+ <div class="panes">
+  <div class="pane show" data-pane="0">
+   <svg id="tri" viewBox="0 0 840 430" class="glass"></svg>
+   <div class="facts">
+    <div class="fact glass"><b>3 feeding black holes</b><span>in one galaxy, J0148-4214, seen 1.2 billion years after the Big Bang. A first.</span></div>
+    <div class="ctrls"><button class="btn" id="mergeBtn">⏩ Fast-forward merger</button><button class="btn" id="thirdBtn">↔ Third one: kicked out or sinking in?</button></div>
+    <div class="quote glass fact">"Black hole merging may be an additional, fast route for their rapid growth in the early Universe."<cite>— Roberto Maiolino, University of Cambridge</cite></div>
+   </div>
+  </div>
+  <div class="pane" data-pane="1">
+   <svg id="born" viewBox="0 0 840 430" class="glass"></svg>
+   <div class="facts">
+    <div class="ctrls"><button class="btn on" data-born="0">Born big (direct collapse)</button><button class="btn" data-born="1">Black hole star</button></div>
+    <div class="fact glass" id="bornFact"></div>
+   </div>
+  </div>
+  <div class="pane" data-pane="2">
+   <svg id="bars3" viewBox="0 0 840 430" class="glass"></svg>
+   <div class="facts">
+    <div class="quote glass fact">"Think of it like finding a Great Dane living in a studio apartment."<cite>— MPE researcher on the eROSITA result</cite></div>
+    <div class="fact glass"><span>Some black holes may have come first, and built their galaxies around them.</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s4" data-title="Magnetism at the edge (EHT)">
+ <div class="kicker" style="color:var(--gold)">Event Horizon Telescope · radio</div><h2>Same magnetic swirl, 1,000× apart</h2>
+ <div class="split">
+  <div class="vis glass"><canvas id="c4" width="900" height="560"></canvas>
+   <div style="position:absolute;left:24px;right:24px;bottom:22px;display:flex;align-items:center;gap:18px;padding:8px 12px;border-radius:16px;border:1px solid transparent" class="hl" id="massRow">
+    <span class="chip">Mass slider</span><input type="range" id="mass" min="0" max="1000" value="0" style="flex:1"><span id="massLbl" class="chip" style="min-width:230px;text-align:center">4 million suns</span>
+   </div>
+  </div>
+  <div class="side">
+   <div class="ctrls"><button class="btn on" data-bh="m87">M87*</button><button class="btn" data-bh="sgr">Sagittarius A* (Milky Way)</button></div>
+   <div class="fact glass hl" id="bhFact"></div>
+   <div class="quote glass fact hl" id="q4">"Strong, twisted, and organized magnetic fields near the black hole at the center of the Milky Way galaxy."<cite>— Sara Issaoun, Center for Astrophysics | Harvard & Smithsonian</cite></div>
+   <div class="fact glass hl" id="jetFact"><b style="font-size:22px;color:var(--cyan)">Hidden jet?</b><span>Best-fit models have strong magnetic fields that help launch jets. M87* has one; the Milky Way's may be hiding.</span></div>
+   <div class="note">Stylized illustration inspired by EHT images, not actual data.</div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s5" data-title="Stars racing around our black hole">
+ <div class="kicker" style="color:var(--cyan)">Keck · VLT GRAVITY · infrared</div><h2>A star draws Einstein's flower</h2>
+ <div class="split">
+  <div class="vis glass"><canvas id="c5" width="900" height="640"></canvas>
+   <div class="ctrls" style="position:absolute;left:20px;top:18px"><button class="btn" data-g="newton">Newton</button><button class="btn on" data-g="einstein">Einstein</button></div>
+   <div class="note" style="position:absolute;right:20px;top:28px">Orbit swing exaggerated ≈ 120× so you can see it</div>
+  </div>
+  <div class="side">
+   <div class="ctrls"><span class="chip">🕒 1 lap = 16 years</span><span class="chip hl" id="ch120">Closest: 120 × Earth–Sun</span><span class="chip">~3% of light speed</span></div>
+   <div class="fact glass hl" id="gauge"><b style="font-size:20px">Redshift test: who's right?</b><svg viewBox="0 0 520 250" width="100%"><g id="gaugeG"></g></svg></div>
+   <div class="quote glass fact hl" id="q5">"Einstein's right, at least for now… at some point we will need to move beyond Einstein's theory to a more comprehensive theory of gravity that explains what a black hole is."<cite>— Andrea Ghez, UCLA (2020 Nobel laureate)</cite></div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s6" data-title="X-ray polarization (IXPE)">
+ <div class="kicker" style="color:var(--violet)">IXPE · X-ray polarization</div><h2>Where is the hot "corona"?</h2>
+ <div class="split" style="grid-template-columns:960px 1fr">
+  <div class="vis glass"><svg id="ix" viewBox="0 0 960 470" width="960" height="470"></svg>
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 16px 16px;border-radius:16px" id="ixOthers" class="hl">
+    <div class="fact glass" style="padding:12px 14px"><b style="font-size:19px">4U 1630-47</b><span style="font-size:15px">Polarization rose ~6% → 10% with energy: a hot, outflowing disk atmosphere?</span></div>
+    <div class="fact glass" style="padding:12px 14px"><b style="font-size:19px">4U 1957+115</b><span style="font-size:15px">Polarization helped estimate a near-maximum spin (Rawat et al.)</span></div>
+    <div class="fact glass" style="padding:12px 14px"><b style="font-size:19px">LMC X-1</b><span style="font-size:15px">Barely polarized (< 2.2%): still a clue for models</span></div>
+   </div>
+  </div>
+  <div class="side">
+   <div class="ctrls"><button class="btn" data-cor="lamp">💡 Lamp-post</button><button class="btn on" data-cor="flat">🥪 Flat corona</button><button class="btn" id="obsBtn">★ IXPE result</button></div>
+   <div class="fact glass hl" id="ixFact"></div>
+   <div class="fact glass"><b style="font-size:22px">Cygnus X-1</b><span>~21 Suns · spinning at >99% of the maximum · polarization 4.0%, lined up with its jet</span></div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s7" data-title="The biggest merger ever heard">
+ <div class="kicker" style="color:var(--cyan)">LIGO · Virgo · KAGRA · gravitational waves</div><h2>The heaviest collision ever heard</h2>
+ <div class="split" style="grid-template-columns:860px 1fr">
+  <div class="vis glass"><canvas id="c7" width="860" height="640"></canvas><button class="btn" id="replay" style="position:absolute;left:18px;top:16px">↻ Replay merger</button></div>
+  <div class="side">
+   <div class="fact glass hl" id="gwFact"><b>GW231123</b><span>Detected Nov 23, 2023 · ~100 + ~140 Suns → one black hole of ~225 Suns · both spinning near the limit</span></div>
+   <svg id="gwbars" viewBox="0 0 560 240" class="glass hl" style="width:100%"></svg>
+   <div class="quote glass fact hl" id="q7" style="font-size:17px">"Black holes this massive are forbidden through standard stellar evolution models."<cite>— Mark Hannam, Cardiff University</cite></div>
+   <div class="fact glass hl" id="aside" style="padding:14px 18px"><b style="font-size:19px;color:var(--cyan)">Aside · GW250114 (Jan 2025)</b><span>Hawking's rule: merged black holes' total horizon area can't shrink. Measured: it grew ✓</span></div>
+  </div>
+ </div>
+</section>
+
+<section class="slide" id="s8" data-title="The big picture">
+ <div class="kicker">The big picture</div><h2>Five ways of seeing, one picture</h2>
+ <table class="syn"><thead><tr><th>Discipline</th><th>Instrument</th><th>Target</th><th>Scientists</th><th>Discovery</th></tr></thead><tbody id="synBody"></tbody></table>
+ <div class="note" style="margin-top:6px;font-size:15px">Tap a row to jump to its slide.</div>
+</section>
+
+<section class="slide" id="s9" data-title="Open questions">
+ <div class="kicker">Still unknown</div><h2>Three questions for the next decade</h2>
+ <div class="qcards">
+  <div class="qc glass hl" data-q="0"><div class="n">01</div><h3>Where did the first ones come from?</h3><p>Dead stars, collapsing gas clouds, or something stranger? QSO1 hints some were born big.</p></div>
+  <div class="qc glass hl" data-q="1"><div class="n">02</div><h3>How do magnetic fields launch jets?</h3><p>And does our own black hole hide one?</p></div>
+  <div class="qc glass hl" data-q="2"><div class="n">03</div><h3>Where does Einstein break?</h3><p>"At some point, general relativity must break down, because it doesn't mesh with quantum mechanics." — Jessica Lu, UC Berkeley</p></div>
+ </div>
+ <svg id="road" viewBox="0 0 1460 170" width="1460" height="170" class="hl" style="margin-top:20px;border-radius:20px;border:1px solid transparent"></svg>
+</section>
+
+<section class="slide" id="s10" data-title="Quiz">
+ <div class="kicker">Quiz time</div><h2>Five quick questions</h2>
+ <div class="quiz">
+  <div class="qbox glass"><div class="note" id="qn">Question 1 of 5</div><h3 id="qq"></h3><div id="qo"></div><div class="fb" id="qf"></div><button class="btn" id="qnext" style="margin-top:8px;display:none">Next question →</button></div>
+  <div class="glass" style="padding:30px;text-align:center"><svg viewBox="0 0 220 220" width="240" height="240"><circle cx="110" cy="110" r="90" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="16"/><circle id="ring" cx="110" cy="110" r="90" fill="none" stroke="#ff9a3c" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 566" transform="rotate(-90 110 110)" style="transition:stroke-dasharray .6s"/><text id="score" x="110" y="124" text-anchor="middle" fill="#eef1ff" font-family="Space Grotesk" font-size="44" font-weight="700">0/5</text></svg><div class="sub" style="font-size:18px" id="qmsg">Score</div><button class="btn" id="qreset" style="margin-top:14px">Restart quiz</button></div>
+ </div>
+</section>
+
+<section class="slide" id="s11" data-title="Sources">
+ <div class="kicker">Show notes</div><h2>Sources</h2>
+ <div class="glass" style="margin-top:20px;padding:24px 30px;height:620px;overflow:auto"><ol class="srclist" id="srcA"></ol></div>
+</section>
+
+<div id="cap"></div>
+<aside id="script"><div class="kicker">Podcast script</div><h3 id="scrTitle"></h3><div class="note">Tap a paragraph to jump there.</div><div id="scrBody"></div></aside>
+<div id="srcpanel" class="glass"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:28px">Sources</h3><button class="btn" id="srcClose">Close ✕</button></div><ol class="srclist" id="srcB" style="margin-top:16px"></ol></div>
+<div id="bar">
+ <button class="btn ctl" id="prev" title="Previous (←)">◀</button>
+ <button class="btn ctl" id="play" title="Play / pause narration (Space)">▶</button>
+ <button class="btn ctl" id="next" title="Next (→)">▶▶</button>
+ <button class="btn wide" id="vmute" title="Mute voice (M)">🔊 Voice</button>
+ <label>🎵 Music <input type="range" id="mvol" min="0" max="100" value="50" style="width:110px"></label>
+ <button class="btn wide" id="mmute">Music on</button>
+ <button class="btn wide on" id="auto" title="Auto-advance (A)">⏭ Auto-advance</button>
+ <button class="btn wide" id="ccBtn" title="Captions (C)">CC</button>
+ <span class="sp"></span>
+ <button class="btn wide" id="scrBtn" title="Script (S)">📜 Script</button>
+ <button class="btn wide" id="srcBtn">📚 Sources</button>
+</div>
+</div></div>
+<audio id="voice" preload="auto"></audio>
+<script>
+const MANIFEST = [{"audio": "audio/slide-01.mp3", "dur": 102.77, "cues": [{"cue": "t0", "t": 0.4, "text": "Welcome to Beyond the Horizon: the new age of black holes. I'm your host, and tonight we're heading somewhere even light can't come back from. In the center of the screen, that glowing ring is a black hole, drawn the way astronomers picture one: a pitch-black middle, wrapped in a bright halo of swirling hot gas."}, {"cue": "jwst", "t": 22.43, "text": "For most of history, black holes were invisible. Now we have four new ways to see them. Top left, in red: the James Webb Space Telescope. It sees infrared light, a kind of heat glow, which lets it look back to the universe's first billion years and spot baby black holes."}, {"cue": "eht", "t": 44.04, "text": "Top right, in gold: the Event Horizon Telescope. It links radio dishes across the planet into one Earth-sized telescope, sharp enough to photograph the edge of a black hole."}, {"cue": "ixpe", "t": 57.57, "text": "Bottom left, in violet: IXPE, a NASA and Italian space telescope that measures how X-rays are polarized, meaning which direction the light waves vibrate. Think of it as polarized sunglasses for X-rays. It reveals the shape of the hot gas right next to a black hole."}, {"cue": "lvk", "t": 78.81, "text": "And bottom right, in cyan: LIGO, Virgo and KAGRA. These aren't telescopes at all. They are giant laser rulers that feel ripples in space itself, called gravitational waves, when black holes collide."}, {"cue": "all", "t": 95.82, "text": "Four eyes, one dark target. Sit back, and let's fall in."}]}, {"audio": "audio/slide-02.mp3", "dur": 91.73, "cues": [{"cue": "intro", "t": 0.4, "text": "First, a quick anatomy lesson. On the left is a cut-away diagram of a black hole. You can tap any part to read about it in the card on the right. Let's walk through it from the inside out."}, {"cue": "singularity", "t": 15.54, "text": "At the very center, the tiny white point is the singularity. It's where Einstein's equations say all the mass is crushed to infinite density. In plain terms, it's the spot where our current physics stops working."}, {"cue": "horizon", "t": 31.3, "text": "Around it, the big black disk is the event horizon. It isn't a surface you could touch. It's a point of no return, like the edge of a waterfall: once you drift past it, not even light can paddle back out."}, {"cue": "photon", "t": 47.18, "text": "Just outside, the thin dashed ring is the photon sphere. Gravity here is so strong that light itself can travel in a circle around the black hole. Bent light like this makes the bright ring you see in real black hole images."}, {"cue": "disk", "t": 63.78, "text": "The wide orange band is the accretion disk: gas spiraling inward like water circling a drain, rubbing and heating up to millions of degrees, until it glows in X-rays."}, {"cue": "jets", "t": 76.14, "text": "And the two blue beams shooting up and down are jets: streams of particles launched at nearly the speed of light, steered by magnetic fields. Not every black hole shows a jet, and that's a mystery we'll come back to."}]}, {"audio": "audio/slide-03.mp3", "dur": 205.42, "cues": [{"cue": "timeline", "t": 0.4, "text": "Now, back to the beginning. Across the top is a timeline of the whole universe, from the Big Bang on the left to today on the right, about thirteen point eight billion years. Notice how the markers bunch up at the far left. That's the universe's first billion years or so, where Webb keeps finding black holes that are already shockingly big."}, {"cue": "triple", "t": 24.68, "text": "Below, in the first tab, is a galaxy called J0148 minus 4214. We see it as it was about one point two billion years after the Big Bang; its light has traveled for twelve and a half billion years. Webb mapped the glow of its hydrogen gas and found something never seen before: three actively feeding supermassive black holes in a single galaxy. The dark circles are sized by mass. The big one in the middle is about eighty million times the mass of the Sun. Its close neighbor is about six hundred thousand suns, and it's eating so fast it beats the usual speed limit for black hole growth."}, {"cue": "merge", "t": 68.72, "text": "Watch the central pair spiral together. The team expects them to merge within the next few hundred million years. Cambridge astronomer Roberto Maiolino says merging may be an additional, fast route for black holes to grow."}, {"cue": "third", "t": 84.91, "text": "The third black hole, about two million suns, sits out in the galaxy's suburbs, some fifty-five hundred light-years from the center. There are two explanations: it may have been kicked out by the recoil of an earlier merger, or it may be sinking inward right now."}, {"cue": "born", "t": 103.07, "text": "The second tab asks: how were the first giants born? Webb has found swarms of compact, very red objects nicknamed little red dots. In one of them, called QSO1, gas orbits so neatly that the team could weigh the black hole directly: about fifty million suns, at least two-thirds of the whole object. Maiolino calls it a paradigm shift. The picture shows one leading idea, the direct-collapse black hole: instead of making stars, a huge cloud of pristine gas collapses straight into a black hole, starting life at tens of thousands to hundreds of thousands of suns. As Princeton's Andy Goulding put it, it's like planting a sapling instead of a seed."}, {"cue": "bhstar", "t": 150.49, "text": "Now the picture changes to an alternative, from MIT's Rohan Naidu: the black hole star. A feeding black hole wrapped in a cocoon of dense gas about the size of our solar system, glowing like one enormous star. His object, MoM-BH-star-1, has a central black hole of roughly a hundred thousand suns."}, {"cue": "outgrow", "t": 174.32, "text": "The third tab is a bar chart: black holes that outgrew their homes. In nearby galaxies, the central black hole usually weighs about one two-hundredth of all the stars. The eROSITA X-ray telescope found eight hungry black holes at one-twentieth or more. One researcher compared it to a Great Dane living in a studio apartment. Put it all together, and some black holes may have come first, and then built their galaxies around them."}]}, {"audio": "audio/slide-04.mp3", "dur": 114.5, "cues": [{"cue": "m87", "t": 0.4, "text": "Next, the Event Horizon Telescope. In the center is a glowing ring, our stylized version of M87 star, the giant black hole in the galaxy M87, more than six billion times the mass of the Sun. The ring is light bent around the black hole's shadow. The small white lines on top show polarization, the direction the light waves vibrate. Because that direction is set by magnetic fields, the lines trace the field, a bit like iron filings around a magnet."}, {"cue": "sgra", "t": 35.1, "text": "Now the view flips to Sagittarius A star, the black hole at the heart of our own Milky Way, about four million suns. In 2024 the EHT released its first polarized image, and look: the same swirling spiral. Sara Issaoun of the Center for Astrophysics said they saw strong, twisted, and organized magnetic fields near the black hole."}, {"cue": "compare", "t": 61.35, "text": "Below is a mass slider. The two circles compare the black holes: M87 star is more than a thousand times heavier, yet the magnetic pattern matches. EHT scientist Mariafelicia De Laurentis says this may be a universal, and perhaps fundamental, feature of these systems."}, {"cue": "jet", "t": 82.63, "text": "Here's the twist. The computer models that fit these images best have strong, dynamically important magnetic fields, the kind that pile up near a black hole and help launch jets. M87 star has a spectacular jet. The faint dashed beam on our Milky Way's black hole marks a jet that may exist but hasn't been seen yet. Upgrades planned for the next decade aim to make movies of Sagittarius A star, and might finally reveal it."}]}, {"audio": "audio/slide-05.mp3", "dur": 121.18, "cues": [{"cue": "orbit", "t": 0.4, "text": "Let's zoom into the center of our galaxy. The dark dot is Sagittarius A star. The bright blue point racing around it is a star called S2. It completes one lap every sixteen years. Two teams have tracked it for decades: Andrea Ghez's group with the Keck telescopes in Hawaii, and Reinhard Genzel's group at the Very Large Telescope in Chile, using an instrument called GRAVITY. Ghez and Genzel shared the 2020 Nobel Prize."}, {"cue": "closest", "t": 32.89, "text": "At its closest point, S2 passes about one hundred and twenty times the Earth to Sun distance from the black hole, moving at almost three percent of the speed of light."}, {"cue": "newton", "t": 43.83, "text": "Now the Newton button. In Newton's gravity, the orbit is a closed ellipse: the star retraces the same path forever."}, {"cue": "einstein", "t": 53.76, "text": "Switch to Einstein. In general relativity, each orbit swings forward a little, so over many laps the path draws a rosette, like a Spirograph flower. For S2 the swing is about twelve arcminutes per orbit, tiny, so the animation exaggerates it. The GRAVITY team measured exactly the amount Einstein predicts."}, {"cue": "redshift", "t": 78.06, "text": "On the right, the dial shows a second test. Light climbing out of the black hole's gravity loses energy and turns redder; that's called gravitational redshift. On this dial, zero means Newton and one means Einstein. GRAVITY measured one point zero four, plus or minus zero point zero five. Einstein wins, and Newton is ruled out."}, {"cue": "ghez", "t": 105.25, "text": "But Andrea Ghez added a note of caution. Einstein's right, she said, at least for now. His theory cannot fully explain gravity inside a black hole, and at some point we will need a more complete theory."}]}, {"audio": "audio/slide-06.mp3", "dur": 117.53, "cues": [{"cue": "system", "t": 0.4, "text": "Now the X-ray eye. On screen is a side view of Cygnus X-1, a black hole about twenty-one times the Sun's mass, pulling gas from a companion star. It's spinning at more than ninety-nine percent of the fastest rate possible. You can see the flat orange disk, the blue jet pointing up and down, and a haze of extremely hot gas called the corona, which makes most of the X-rays."}, {"cue": "lamppost", "t": 28.59, "text": "But where exactly is the corona? Option one, the lamp-post: a ball of hot gas floating above the black hole, like a lamp over a table. If that were right, the X-ray polarization arrow would lie sideways, across the jet."}, {"cue": "flat", "t": 46.37, "text": "Option two: a flat corona, spread out along the disk, like a hot sandwich around the inner gas. That predicts an arrow pointing along the jet."}, {"cue": "observed", "t": 58.05, "text": "The gold arrow is what IXPE actually measured: about four percent polarization, lined up almost perfectly with the radio jet. So the corona is flat and extended, and the lamp-post picture loses. The team behind this result was led by Henric Krawczynski, with researchers including Alexandra Veledina."}, {"cue": "others", "t": 80.8, "text": "Along the bottom are three more black holes IXPE studied. 4U 1630 minus 47 was more polarized than expected, rising from about six to ten percent with energy, a hint of a hot, outflowing atmosphere over its disk. For 4U 1957 plus 115, Divya Rawat and colleagues used polarization to estimate a spin close to the maximum. And LMC X-1, in a neighboring galaxy, showed barely any polarization at all, which still tells modelers something."}]}, {"audio": "audio/slide-07.mp3", "dur": 148.56, "cues": [{"cue": "inspiral", "t": 0.4, "text": "Now we stop looking and start listening. On the left, two black holes circle each other, faster and faster. As they spiral in, they shake space itself, sending out gravitational waves. Below them, the wave trace is the signal: it grows taller and quicker until the crash. Scientists call it a chirp, because turned into sound it swoops upward, like a bird call."}, {"cue": "record", "t": 29.22, "text": "This is GW231123, caught on November twenty-third, 2023, by the two LIGO observatories. Two black holes of roughly one hundred and one hundred forty suns merged into one of about two hundred twenty-five suns, the most massive merger ever detected. That puts the final black hole in the rare intermediate-mass class, between star-sized black holes and the giants in galaxy centers."}, {"cue": "bars", "t": 58.68, "text": "On the right, the bar chart compares it with famous events. The very first detection, in 2015, left a black hole of sixty-two suns. The previous record, GW190521, totaled one hundred forty. GW231123 towers over both. Cardiff's Mark Hannam says black holes this massive are forbidden by standard models of how stars live and die; perhaps they were themselves built from earlier mergers."}, {"cue": "spin", "t": 93.17, "text": "Both black holes were spinning near the limit Einstein's theory allows, which made the signal hard to decode. Charlie Hoy of Portsmouth calls it an excellent case study for pushing our theoretical tools forward, and Gregorio Carullo of Birmingham says it will take years to fully unravel. In this observing run alone, the detectors have caught more than two hundred black hole mergers."}, {"cue": "aside", "t": 118.31, "text": "One quick aside, the small card at the bottom. In January 2025, a signal called GW250114 arrived so loud and clear that scientists could test a rule Stephen Hawking proved in 1971: when black holes merge, the total area of their event horizons can never shrink. They measured the areas before and after. The area grew. Hawking passes."}]}, {"audio": "audio/slide-08.mp3", "dur": 65.47, "cues": [{"cue": "grid", "t": 0.4, "text": "Let's put it all together. This grid is your cheat sheet. Each row is one way of studying black holes: the field of science, the instrument, the target, the people, and the discovery. Tap any row to jump back to that part of the episode."}, {"cue": "r0", "t": 19.23, "text": "Row one, infrared astronomy with Webb: baby giants, little red dots, and a galaxy with three black holes."}, {"cue": "r1", "t": 28.59, "text": "Row two, radio imaging with the Event Horizon Telescope: the same magnetic spiral around two very different black holes."}, {"cue": "r2", "t": 38.16, "text": "Row three, star tracking with Keck and GRAVITY: the star S2 drawing Einstein's rosette."}, {"cue": "r3", "t": 45.86, "text": "Row four, X-ray polarization with IXPE: a flat corona hugging the disk of Cygnus X-1."}, {"cue": "r4", "t": 54.56, "text": "And row five, gravitational waves with LIGO, Virgo and KAGRA: the heaviest merger ever heard, and Hawking's area rule confirmed."}]}, {"audio": "audio/slide-09.mp3", "dur": 77.21, "cues": [{"cue": "q", "t": 0.4, "text": "So what don't we know yet? Three big questions, shown as three glowing cards."}, {"cue": "q0", "t": 7.83, "text": "First: where did the first black holes come from? Dead stars, collapsing gas clouds, or something stranger? QSO1 suggests at least some were born big."}, {"cue": "q1", "t": 21.63, "text": "Second: how exactly do magnetic fields launch jets, and does our own black hole hide one?"}, {"cue": "q2", "t": 29.4, "text": "Third: where does Einstein's theory finally break? As Berkeley astronomer Jessica Lu put it, at some point general relativity must break down, because it doesn't mesh with quantum mechanics, the physics of the very small. The hunt is on for that breaking point."}, {"cue": "road", "t": 48.28, "text": "Along the bottom is the road ahead. The Event Horizon Telescope is growing toward black hole movies over the next decade. Europe is choosing a site for the Einstein Telescope, a giant underground gravitational-wave detector, with a decision due in the second half of 2027. And in 2035, the LISA mission plans to launch three spacecraft that will listen for colliding giant black holes from space."}]}, {"audio": "audio/slide-10.mp3", "dur": 18.82, "cues": [{"cue": "quiz", "t": 0.4, "text": "Time for a quick quiz. Five questions, drawn from tonight's episode. Tap an answer and you'll see right away whether you got it, with a short explanation. Your score builds in the corner. Pause me here, and good luck."}]}, {"audio": "audio/slide-11.mp3", "dur": 26.57, "cues": [{"cue": "src", "t": 0.4, "text": "Every fact in this episode comes from the sources listed here: NASA, ESA, the Max Planck Society, Caltech, UCLA, Berkeley, the Event Horizon Telescope, IXPE researchers, and the LIGO, Virgo and KAGRA collaboration. Tap any link to read more. Thanks for listening to Event Horizon. Keep looking up."}]}];
+const AUDIO = window.__A;
+const SOURCES = [
+ ["Max Planck Society (Aug 2026): Three supermassive black holes discovered in a single galaxy (J0148-4214)","https://www.mpg.de/26904239/three-black-holes-discovered-in-a-young-galaxy"],
+ ["NASA (May 2026): Webb reveals black hole that formed before its galaxy (QSO1)","https://science.nasa.gov/missions/webb/nasas-webb-reveals-black-hole-that-formed-before-its-galaxy/"],
+ ["Space.com (Jan 2026): JWST data backs new origin story for the first supermassive black holes (Natarajan, direct collapse)","https://www.space.com/astronomy/james-webb-space-telescope/james-webb-space-telescope-data-backs-new-origin-story-for-the-universes-1st-supermassive-black-holes"],
+ ["MIT News (Aug 2026): A black hole star (Rohan Naidu, MoM-BH*-1)","https://news.mit.edu/2026/astronomers-discover-brand-new-type-astrophysical-object-black-hole-star-0812"],
+ ["Naidu et al. 2025: A 'Black Hole Star' reveals the gas-enshrouded hearts of the Little Red Dots (660 Myr after the Big Bang)","https://inspirehep.net/literature/2902878"],
+ ["Max Planck Society (Sep 2026): Black holes outgrow their galaxies (eROSITA)","https://www.mpg.de/26963661/black-holes-outgrow-their-galaxies"],
+ ["Chandra/NASA (2023): Record-breaking black hole UHZ1 (470 Myr; Goulding 'sapling' quote)","https://chandra.harvard.edu/press/23_releases/press_110623.html"],
+ ["University of Cambridge (2024): Oldest black hole ever observed, GN-z11 (~400 Myr)","https://www.cam.ac.uk/research/news/astronomers-detect-oldest-black-hole-ever-observed"],
+ ["SciTechDaily / ESO (Apr 2024): Peering into the magnetic soul of the Milky Way's central black hole","https://scitechdaily.com/peering-into-the-magnetic-soul-of-the-milky-ways-central-black-hole/"],
+ ["ESO eso2406 (Mar 2024): Strong magnetic fields spiraling at the edge of Sgr A* (Issaoun, De Laurentis)","https://www.eso.org/public/news/eso2406/"],
+ ["INFN (Mar 2024): The polarized image of Sagittarius A* uncovers similarities with M87","https://www.infn.it/en/eht-the-polarized-image-of-sagittarius-a-uncovers-similarities-with-m87/"],
+ ["EHT Collaboration 2024, Sgr A* Paper VIII (ApJL): strong-magnetic-field (MAD) models favored","https://iopscience.iop.org/article/10.3847/2041-8213/ad2df1"],
+ ["EHT (Sep 2025): Polarization flips at M87* (more than 6 billion Suns)","https://eventhorizontelescope.org/new-eht-images-reveal-unexpected-polarization-flips-at-m87"],
+ ["UCLA (2019): Einstein's general relativity questioned but still stands 'for now' (Ghez)","https://newsroom.ucla.edu/releases/einstein-general-relativity-theory-questioned-ghez"],
+ ["Berkeley News (2019): Milky Way's central black hole puts Einstein to the test (120 AU; Jessica Lu)","https://news.berkeley.edu/2019/07/25/milky-ways-central-black-hole-puts-einsteins-theories-to-the-test/"],
+ ["Max Planck Society (2020): Dance around the heart of our Milky Way (S2 rosette; Genzel)","https://www.mpg.de/14692117/dance-around-the-heart-of-our-milky-way"],
+ ["GRAVITY Collaboration 2020 (A&A): Schwarzschild precession of S2, ≈12′ per orbit","https://www.aanda.org/articles/aa/full_html/2020/04/aa37813-20/aa37813-20.html"],
+ ["GRAVITY Collaboration 2021: mass distribution in the Galactic Centre (reports f = 1.04 ± 0.05)","https://www.eso.org/public/archives/releases/sciencepapers/eso2119/eso2119b.pdf"],
+ ["Nobel Prize in Physics 2020 press release (Penrose, Genzel, Ghez)","https://www.nobelprize.org/prizes/physics/2020/press-release/"],
+ ["Rodriguez Cavero et al. 2024: First year of IXPE stellar-mass black hole observations","https://arxiv.org/html/2402.10371v1"],
+ ["Space.com (2022): IXPE reveals the shape of Cygnus X-1's corona","https://www.space.com/black-hole-cygnus-x1-polarized-x-rays"],
+ ["Zhao et al. 2021: Re-estimating the spin of Cygnus X-1 (a* > 0.9985)","https://arxiv.org/abs/2102.09093"],
+ ["Rawat et al. 2023: Spectro-polarimetry of 4U 1957+115 with IXPE","https://arxiv.org/abs/2310.02222"],
+ ["Caltech (Jul 2025): LIGO detects most massive black hole merger to date (Hannam, Hoy, Carullo)","https://www.caltech.edu/about/news/ligo-detects-most-massive-black-hole-merger-to-date"],
+ ["EGO/Virgo (Jul 2025): LIGO-Virgo-KAGRA detect most massive black hole merger to date","https://www.ego-gw.it/blog/2025/07/14/ligo-virgo-kagra-detect-most-massive-black-hole-merger-to-date/"],
+ ["LIGO science summary: GW231123 (intermediate-mass remnant)","https://ligo.org/science-summaries/gw231123/"],
+ ["APS (Sep 2025): GW250114 gives the most precise confirmation of Hawking's area theorem","https://www.aps.org/about/news/2025/09/clearest-signal-hawkings-area-theorem"],
+ ["ESA (Jan 2024): LISA gets go-ahead, launch planned for 2035","https://www.esa.int/Science_Exploration/Space_Science/LISA/Capturing_the_ripples_of_spacetime_LISA_gets_go-ahead"],
+ ["Einstein Telescope EMR (Oct 2026): site decision due in the second half of 2027","https://www.einsteintelescope-emr.eu/en/2026/10/05/maximising-opportunities-the-einstein-telescope-in-a-triangular-or-l-shaped-configuration/"]
+];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;if(parent)parent.appendChild(e);return e}
+const params=new URLSearchParams(location.search);
+const STILL=params.has('still');
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);$('#stage').style.transform=`scale(${s})`}
+addEventListener('resize',fit);fit();
+const stars=[...Array(420)].map(()=>({x:Math.random()*1600,y:Math.random()*900,r:Math.random()*1.4+.2,p:Math.random()*6.28,s:Math.random()*.02+.004}));
+const sc=$('#stars').getContext('2d');
+function drawStars(t){sc.clearRect(0,0,1600,900);for(const s of stars){const a=.35+.65*Math.abs(Math.sin(s.p+t*s.s*0.06));sc.fillStyle=`rgba(220,228,255,${a*0.8})`;sc.beginPath();sc.arc(s.x,s.y,s.r,0,6.28);sc.fill()}}
+const S={};
+/* 1 title */
+S[0]={init(){this.c=$('#c1').getContext('2d')},
+ draw(t){const c=this.c;c.clearRect(0,0,1600,900);const cx=800,cy=430;
+  const g=c.createRadialGradient(cx,cy,100,cx,cy,560);g.addColorStop(0,'rgba(255,140,40,.22)');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,1600,900);
+  c.save();c.translate(cx,cy);
+  for(let i=0;i<60;i++){const r=150+i*5;c.strokeStyle=`hsla(${30+i*0.4},100%,${70-i*0.7}%,${0.5-i*0.008})`;c.lineWidth=4;c.beginPath();c.ellipse(0,0,r*1.9,r*0.32,0,Math.PI,2*Math.PI);c.stroke()}
+  for(let i=0;i<18;i++){c.strokeStyle=`rgba(255,${180-i*4},80,${0.35-i*0.017})`;c.lineWidth=5;c.beginPath();c.arc(0,0,170+i*4,Math.PI*1.04,Math.PI*1.96);c.stroke()}
+  const pr=c.createRadialGradient(0,0,140,0,0,178);pr.addColorStop(0,'rgba(255,240,200,0)');pr.addColorStop(.5,'rgba(255,230,180,.95)');pr.addColorStop(1,'rgba(255,150,50,0)');c.fillStyle=pr;c.beginPath();c.arc(0,0,178,0,6.28);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(0,0,148,0,6.28);c.fill();
+  for(let i=0;i<60;i++){const r=150+i*5;c.strokeStyle=`hsla(${30+i*0.4},100%,${72-i*0.7}%,${0.6-i*0.009})`;c.lineWidth=4;c.beginPath();c.ellipse(0,0,r*1.9,r*0.32,0,0,Math.PI);c.stroke()}
+  for(let k=0;k<16;k++){const a=t*0.0004*(1+k%3*.3)+k*0.45,r=(170+k*14);const x=Math.cos(a)*r*1.9,y=Math.sin(a)*r*0.32;if(y<0&&Math.abs(x)<180)continue;c.fillStyle='rgba(255,240,200,.55)';c.beginPath();c.arc(x,y,2.2,0,6.28);c.fill()}
+  c.restore();},
+ cue(n){$$('.eye').forEach(e=>{e.classList.remove('on','dim');if(n!=='all'&&n!=='t0'){if(e.dataset.eye===n)e.classList.add('on');else e.classList.add('dim')}})},
+ reset(){this.cue('all')}};
+/* 2 anatomy */
+const PARTS={singularity:["The center","Singularity","Where all the mass is crushed to a single point. Our physics stops working here.","Like a map that simply ends."],
+ horizon:["Point of no return","Event horizon","Not a surface, but a boundary. Inside it, not even light can escape.","Like the edge of a waterfall: past it, you can't paddle back."],
+ photon:["Light in orbit","Photon sphere","Gravity is so strong that light can circle the black hole. Bent light makes the bright ring in black hole images.","Like a race track for light."],
+ disk:["The feeding zone","Accretion disk","Gas spiraling inward, heated by friction to millions of degrees until it glows.","Like water swirling down a drain."],
+ jets:["Cosmic blowtorches","Jets","Beams of particles shot out at nearly light speed, steered by magnetic fields.","Like a fire hose pointing out of each pole."]};
+S[1]={init(){const pl=$('#plist');for(const k in PARTS){const b=document.createElement('button');b.className='btn';b.textContent=PARTS[k][1];b.dataset.p=k;b.onclick=()=>this.show(k);pl.appendChild(b)}
+  $$('#anat .part').forEach(p=>{const k=p.dataset.part==='diskfront'?'disk':p.dataset.part;p.addEventListener('mouseenter',()=>this.show(k));p.addEventListener('click',()=>this.show(k))})},
+ show(k){const d=PARTS[k];$('#ak').textContent=d[0];$('#ah').textContent=d[1];$('#ap').textContent=d[2];$('#aa').textContent='≈ '+d[3];
+  $$('#anat .part').forEach(p=>{const pk=p.dataset.part==='diskfront'?'disk':p.dataset.part;p.classList.toggle('dimp',pk!==k);p.classList.toggle('lit',pk===k)});
+  $$('#plist .btn').forEach(b=>b.classList.toggle('on',b.dataset.p===k));$('#acard').classList.add('pulse');setTimeout(()=>$('#acard').classList.remove('pulse'),900)},
+ cue(n){if(PARTS[n])this.show(n);else this.reset()},
+ reset(){$$('#anat .part').forEach(p=>p.classList.remove('dimp','lit'));$$('#plist .btn').forEach(b=>b.classList.remove('on'));$('#ak').textContent='Tap a part';$('#ah').textContent='Anatomy of the dark';$('#ap').textContent='Five parts, from the center outward. Hover or tap any part of the diagram.';$('#aa').textContent=''}};
+/* 3 baby giants */
+S[2]={init(){
+  const tl=$('#tl');const X=g=>g<=1.5?60+g/1.5*940:1060+(g-1.5)/12.3*340;
+  el('line',{x1:60,y1:75,x2:1000,y2:75,stroke:'#ff9a3c','stroke-width':3},tl);el('line',{x1:1060,y1:75,x2:1400,y2:75,stroke:'#556','stroke-width':3},tl);
+  el('text',{x:1030,y:82,fill:'#889','font-size':24,'text-anchor':'middle'},tl,'≈');
+  el('text',{x:60,y:20,fill:'#9aa3c7','font-size':14,'font-family':'Space Grotesk'},tl,'BIG BANG');el('text',{x:1400,y:20,fill:'#9aa3c7','font-size':14,'text-anchor':'end','font-family':'Space Grotesk'},tl,'TODAY · 13.8 BILLION YEARS');
+  el('text',{x:530,y:20,fill:'#ff9a3c','font-size':14,'text-anchor':'middle','font-family':'Space Grotesk'},tl,'◀  FIRST 1.5 BILLION YEARS, ZOOMED IN  ▶');
+  const M=[[0.4,'GN-z11','~400 million yrs',1],[0.47,'UHZ1','~470 million yrs',0],[0.66,'MoM-BH*-1','~660 million yrs',1],[0.7,'QSO1','~700 million yrs',0],[1.2,'J0148-4214','~1.2 billion yrs',1],[13.8,'Milky Way today','',2]];
+  for(const [g,n,a,up] of M){const x=X(g);el('circle',{cx:x,cy:75,r:8,fill:'#ff5a6e',stroke:'#fff','stroke-width':2},tl);
+   if(up){el('text',{x,y:55,fill:'#eef1ff','font-size':17,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700},tl,n);el('text',{x,y:38,fill:'#9aa3c7','font-size':13,'text-anchor':'middle'},tl,a)}
+   else{el('text',{x:up===2?x+10:x,y:106,fill:'#eef1ff','font-size':17,'text-anchor':up===2?'end':'middle','font-family':'Space Grotesk','font-weight':700},tl,n);el('text',{x,y:124,fill:'#9aa3c7','font-size':13,'text-anchor':'middle'},tl,a)}}
+  const s=$('#tri');const defs=el('defs',{},s);const rg=el('radialGradient',{id:'gal'},defs);el('stop',{offset:0,'stop-color':'#ff6a7a','stop-opacity':.75},rg);el('stop',{offset:.5,'stop-color':'#b0306a','stop-opacity':.35},rg);el('stop',{offset:1,'stop-color':'#300','stop-opacity':0},rg);
+  el('ellipse',{cx:420,cy:215,rx:400,ry:200,fill:'url(#gal)'},s);
+  el('text',{x:20,y:30,fill:'#ff8a9a','font-size':14,'font-family':'Space Grotesk'},s,'HYDROGEN GLOW MAP · ILLUSTRATION, NOT TO SCALE');
+  this.b1=el('circle',{r:44,fill:'#000',stroke:'#ffc857','stroke-width':3},s);this.b2=el('circle',{r:14,fill:'#000',stroke:'#ffc857','stroke-width':3},s);
+  this.l1=el('text',{fill:'#ffc857','font-size':17,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700},s,'~80 million Suns');
+  this.l2=el('text',{fill:'#ffc857','font-size':15,'text-anchor':'middle','font-family':'Space Grotesk'},s,'~0.6 million Suns · eating fastest');
+  this.third=el('g',{},s);el('circle',{cx:0,cy:0,r:20,fill:'#000',stroke:'#4fd8ff','stroke-width':3},this.third);el('text',{x:0,y:-32,fill:'#4fd8ff','font-size':16,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700},this.third,'~2 million Suns');el('text',{x:0,y:44,fill:'#9aa3c7','font-size':14,'text-anchor':'middle'},this.third,'5,500 light-years out');
+  this.arrow=el('path',{d:'',stroke:'#4fd8ff','stroke-width':3,fill:'none'},s);this.arrowLbl=el('text',{x:620,y:400,fill:'#4fd8ff','font-size':16,'text-anchor':'middle','font-family':'Space Grotesk'},s,'');
+  this.mergeT=null;this.mode=0;this.thirdMode=-1;
+  $('#mergeBtn').onclick=()=>this.startMerge();$('#thirdBtn').onclick=()=>{this.thirdMode=(this.thirdMode+1)%2};
+  $$('#s3 [data-tab]').forEach(b=>b.onclick=()=>this.tab(+b.dataset.tab));
+  this.bornG=el('g',{},$('#born'));$$('#s3 [data-born]').forEach(b=>b.onclick=()=>this.born(+b.dataset.born));this.bornMode=0;this.born(0);
+  const br=$('#bars3');el('text',{x:30,y:44,fill:'#eef1ff','font-size':22,'font-family':'Space Grotesk','font-weight':700},br,"How big is the black hole compared with its home?");
+  const B=[["Typical nearby galaxy","≈ 1/200 of the stars' mass (0.5%)",0.5,'#9aa3c7'],["8 eROSITA quasars","≥ 1/20 of the stars' mass (≥ 5%)",5,'#ffc857'],["QSO1 (Webb, early universe)","≥ 2/3 of the whole object's mass",67,'#ff5a6e']];
+  this.bars=[];B.forEach((b,i)=>{const y=100+i*108;el('text',{x:30,y,fill:'#eef1ff','font-size':19,'font-family':'Space Grotesk'},br,b[0]);el('rect',{x:30,y:y+12,width:760,height:34,rx:8,fill:'rgba(255,255,255,.05)'},br);const r=el('rect',{x:30,y:y+12,width:0,height:34,rx:8,fill:b[3]},br);r.dataset.w=Math.max(8,b[2]/67*760);el('text',{x:30,y:y+72,fill:'#9aa3c7','font-size':15},br,b[1]);this.bars.push(r)});
+ },
+ tab(i){$$('#s3 [data-tab]').forEach(b=>b.classList.toggle('on',+b.dataset.tab===i));$$('#s3 .pane').forEach(p=>p.classList.toggle('show',+p.dataset.pane===i));const ch=this.mode!==i;this.mode=i;
+  if(i===2&&ch)this.bars.forEach(r=>{r.style.transition='none';r.setAttribute('width',0);setTimeout(()=>{r.style.transition='width 1.4s ease';r.setAttribute('width',r.dataset.w)},60)});
+  if(i===2&&STILL)this.bars.forEach(r=>{r.style.transition='none';r.setAttribute('width',r.dataset.w)})},
+ born(m){this.bornMode=m;$$('#s3 [data-born]').forEach(b=>b.classList.toggle('on',+b.dataset.born===m));
+  $('#bornFact').innerHTML=m===0?'<b>Born big</b><span>A pristine gas cloud collapses straight into a black hole of tens of thousands to hundreds of thousands of Suns. QSO1: ~50 million Suns, weighed directly, ≥ 2/3 of the object.</span><div class="quote" style="margin-top:10px">"It\'s a paradigm shift."<cite>— Roberto Maiolino, on QSO1</cite></div>':'<b>Black hole star</b><span>A feeding black hole (~100,000 Suns in MoM-BH*-1) inside a dense gas cocoon the size of our solar system, glowing like a giant star.</span><div class="quote" style="margin-top:10px">"Red does not mean dust."<cite>— Rohan Naidu, MIT</cite></div>'},
+ startMerge(){this.mergeT=performance.now()},
+ draw(t){if(this.mode===0){let sep=95,ang=t*0.0012;
+   if(this.mergeT){const p=Math.min(1,(t-this.mergeT)/6000);sep=95*(1-p);ang=t*0.0012+p*p*40}
+   const cx=330,cy=215;const x1=cx-sep*0.03*Math.cos(ang),y1=cy-sep*0.03*Math.sin(ang)*.5,x2=cx+sep*Math.cos(ang),y2=cy+sep*Math.sin(ang)*.5;const merged=sep<8;
+   this.b1.setAttribute('cx',x1);this.b1.setAttribute('cy',y1);this.b2.setAttribute('cx',x2);this.b2.setAttribute('cy',y2);this.b2.style.opacity=merged?0:1;this.b1.setAttribute('r',merged?47:44);
+   this.l1.setAttribute('x',cx);this.l1.setAttribute('y',cy+85);this.l1.textContent=merged?'Merged (a few hundred million years later)':'~80 million Suns';
+   this.l2.setAttribute('x',cx);this.l2.setAttribute('y',cy-85);this.l2.style.opacity=merged?0:1;
+   let tx=640,ty=150;if(this.thirdMode>=0){const ph=(t/3000)%1;const d=this.thirdMode===0?ph*70:-ph*70;tx=640+d;ty=150+d*0.3;this.arrow.setAttribute('d',this.thirdMode===0?'M610 205 L760 245 m-16 -14 l16 14 l-21 4':'M760 245 L610 205 m16 14 l-16 -14 l21 -4');this.arrowLbl.textContent=this.thirdMode===0?"Idea 1: kicked out by an earlier merger's recoil":'Idea 2: sinking in toward the center'}else{this.arrow.setAttribute('d','');this.arrowLbl.textContent=''}
+   this.third.setAttribute('transform',`translate(${tx},${ty})`)}
+  if(this.mode===1){const g=this.bornG;g.innerHTML='';const cx=420,cy=210;
+   if(this.bornMode===0){const p=(t/5000)%1;for(let i=0;i<7;i++){const r=(1-((p+i/7)%1))*190+10;el('circle',{cx,cy,r,fill:'none',stroke:'#ff9a3c','stroke-opacity':Math.min(1,r/190)*.7,'stroke-width':2},g)}
+    el('circle',{cx,cy,r:16,fill:'#000',stroke:'#ffc857','stroke-width':3},g);el('text',{x:cx,y:415,fill:'#9aa3c7','font-size':16,'text-anchor':'middle'},g,'A gas cloud collapses straight into a black hole · no stars needed');
+    el('text',{x:24,y:34,fill:'#ff9a3c','font-size':15,'font-family':'Space Grotesk'},g,'IDEA 1 · DIRECT COLLAPSE')}
+   else{const rr=el('defs',{},g);const gg=el('radialGradient',{id:'bhs'},rr);el('stop',{offset:0,'stop-color':'#ffd9a0'},gg);el('stop',{offset:.6,'stop-color':'#ff5a3c','stop-opacity':.8},gg);el('stop',{offset:1,'stop-color':'#a01030','stop-opacity':0},gg);
+    const pul=1+0.03*Math.sin(t/600);el('circle',{cx,cy,r:170*pul,fill:'url(#bhs)'},g);
+    [40,70,110,150].forEach(r=>el('ellipse',{cx,cy,rx:r,ry:r*0.35,fill:'none',stroke:'rgba(255,255,255,.4)','stroke-dasharray':'3 5'},g));
+    el('circle',{cx,cy,r:10,fill:'#000',stroke:'#fff','stroke-width':1.5},g);el('text',{x:cx,y:415,fill:'#9aa3c7','font-size':16,'text-anchor':'middle'},g,'Dotted rings = planet orbits for scale · the cocoon is about solar-system sized');
+    el('text',{x:24,y:34,fill:'#ff5a6e','font-size':15,'font-family':'Space Grotesk'},g,'IDEA 2 · BLACK HOLE STAR (MoM-BH*-1)')}}},
+ cue(n){$('#tl').classList.toggle('pulse',n==='timeline');
+  if(n==='timeline'||n==='triple'){this.tab(0);this.mergeT=null;this.thirdMode=-1}
+  if(n==='merge'){this.tab(0);this.startMerge()}
+  if(n==='third'){this.tab(0);this.thirdMode=0;clearInterval(this._ti);this._ti=setInterval(()=>{if(this.thirdMode>=0)this.thirdMode=(this.thirdMode+1)%2},6000)}
+  if(n==='born'){this.tab(1);this.born(0)}
+  if(n==='bhstar'){this.tab(1);this.born(1)}
+  if(n==='outgrow'){this.tab(2)}},
+ reset(){$('#tl').classList.remove('pulse');clearInterval(this._ti);this.mergeT=null;this.thirdMode=-1;this.tab(0)}};
+/* 4 EHT */
+S[3]={init(){this.c=$('#c4').getContext('2d');this.jetPulse=0;
+  $$('#s4 [data-bh]').forEach(b=>b.onclick=()=>this.set(b.dataset.bh));
+  $('#mass').oninput=e=>this.mass(+e.target.value/1000);this.set('m87')},
+ mass(v){this.mv=v;const m=4e6*Math.pow(6e9/4e6,v);$('#massLbl').textContent=m>=1e9?(m/1e9).toFixed(1)+' billion Suns':Math.round(m/1e6)+' million Suns'},
+ set(b){this.bh=b;$$('#s4 [data-bh]').forEach(x=>x.classList.toggle('on',x.dataset.bh===b));
+  $('#bhFact').innerHTML=b==='m87'?'<b>M87*</b><span>In galaxy M87, 55 million light-years away · more than 6 billion Suns · has a huge jet</span>':'<b>Sagittarius A*</b><span>Center of our Milky Way, ~27,000 light-years away · ~4 million Suns · first polarized image released 2024</span>';
+  const v=b==='m87'?1:0;$('#mass').value=v*1000;this.mass(v)},
+ draw(t){const c=this.c,W=900,H=560;c.clearRect(0,0,W,H);const cx=420,cy=250,R=150;const m87=this.bh==='m87';const jp=.5+.5*Math.sin(t/400);
+  if(m87){const g=c.createLinearGradient(cx,cy,cx+420,cy-280);g.addColorStop(0,'rgba(120,220,255,.6)');g.addColorStop(1,'rgba(120,220,255,0)');c.strokeStyle=g;c.lineWidth=36;c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+430,cy-290);c.stroke()}
+  else{c.setLineDash([10,10]);c.strokeStyle=`rgba(120,220,255,${.3+this.jetPulse*.5*jp})`;c.lineWidth=3+this.jetPulse*3;c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+380,cy-250);c.stroke();c.setLineDash([]);c.fillStyle=`rgba(120,220,255,${.55+this.jetPulse*.45})`;c.font='700 30px Space Grotesk';c.fillText('jet?',cx+320,cy-230)}
+  for(let i=0;i<360;i+=2){const a=i*Math.PI/180;const b=m87?(.5+.5*Math.max(0,Math.sin(a))):(.55+.3*Math.sin(3*a+t/2500)+.1);
+   c.strokeStyle=`rgba(255,${120+b*110},${40+b*60},${.3+b*.65})`;c.lineWidth=46;c.beginPath();c.arc(cx,cy,R,a,a+0.045);c.stroke()}
+  c.fillStyle='#000';c.beginPath();c.arc(cx,cy,R-24,0,6.28);c.fill();
+  const rot=t/9000;for(let k=0;k<36;k++){const a=k/36*6.28+rot;const x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;const tilt=a+Math.PI/2+0.7;const L=16+6*Math.sin(a*2+t/1500);
+   c.strokeStyle='rgba(255,255,255,.92)';c.lineWidth=3;c.beginPath();c.moveTo(x-Math.cos(tilt)*L,y-Math.sin(tilt)*L);c.lineTo(x+Math.cos(tilt)*L,y+Math.sin(tilt)*L);c.stroke()}
+  c.fillStyle='#eef1ff';c.font='700 28px Space Grotesk';c.fillText(m87?'M87*':'Sagittarius A*',24,44);c.font='15px Inter';c.fillStyle='#9aa3c7';c.fillText('white lines = polarization → traces the magnetic field',24,68);
+  // mass comparison circles (radius ∝ mass, log-compressed for display)
+  const v=this.mv??0,bx=770,by=420;c.strokeStyle='rgba(255,255,255,.35)';c.setLineDash([4,4]);c.lineWidth=1.5;c.beginPath();c.arc(bx,by,60,0,6.28);c.stroke();c.setLineDash([]);
+  const r=Math.max(2,60*Math.pow(1500,v-1));c.fillStyle='#ffc857';c.beginPath();c.arc(bx,by,r,0,6.28);c.fill();
+  c.fillStyle='#9aa3c7';c.font='13px Inter';c.textAlign='center';c.fillText('dashed = M87* size',bx,by+78);c.textAlign='left'},
+ cue(n){$('#q4').classList.toggle('pulse',n==='sgra');$('#massRow').classList.toggle('pulse',n==='compare');$('#jetFact').classList.toggle('pulse',n==='jet');
+  if(n==='m87'){this.set('m87');this.jetPulse=0}if(n==='sgra')this.set('sgr');
+  if(n==='compare'){this.set('sgr');let v=0;clearInterval(this._mi);if(STILL){$('#mass').value=600;this.mass(.6)}else this._mi=setInterval(()=>{v+=0.008;$('#mass').value=Math.min(1,v)*1000;this.mass(Math.min(1,v));if(v>=1)clearInterval(this._mi)},60)}
+  if(n==='jet'){this.set('sgr');this.jetPulse=1}},
+ reset(){clearInterval(this._mi);this.jetPulse=0;this.set('m87');$$('#s4 .pulse').forEach(e=>e.classList.remove('pulse'))}};
+/* 5 S2 rosette */
+S[4]={init(){this.c=$('#c5').getContext('2d');this.mode='einstein';this.trail=[];this.t0=performance.now();
+  $$('#s5 [data-g]').forEach(b=>b.onclick=()=>this.setMode(b.dataset.g));this.gauge()},
+ setMode(m){this.mode=m;this.trail=[];this.t0=performance.now()-(STILL&&m==='einstein'?7000*4.6:0);$$('#s5 [data-g]').forEach(b=>b.classList.toggle('on',b.dataset.g===m))},
+ gauge(){const g=$('#gaugeG');g.innerHTML='';const cx=260,cy=220,R=170;const A=v=>Math.PI*(1-v/1.4);
+  el('path',{d:`M${cx-R} ${cy} A${R} ${R} 0 0 1 ${cx+R} ${cy}`,fill:'none',stroke:'rgba(255,255,255,.12)','stroke-width':26},g);
+  const a1=A(0.99),a2=A(1.09);el('path',{d:`M${cx+R*Math.cos(a1)} ${cy-R*Math.sin(a1)} A${R} ${R} 0 0 1 ${cx+R*Math.cos(a2)} ${cy-R*Math.sin(a2)}`,fill:'none',stroke:'#4fd8ff','stroke-width':26},g);
+  [[0,'0 · Newton','#ff5a6e','start'],[1,'1 · Einstein','#4fd8ff','middle']].forEach(([v,l,c,an])=>{const a=A(v);el('line',{x1:cx+(R-22)*Math.cos(a),y1:cy-(R-22)*Math.sin(a),x2:cx+(R+22)*Math.cos(a),y2:cy-(R+22)*Math.sin(a),stroke:c,'stroke-width':3},g);el('text',{x:cx+(R+34)*Math.cos(a)-(v?0:10),y:cy-(R+34)*Math.sin(a)+(v?0:28),fill:c,'font-size':17,'text-anchor':an,'font-family':'Space Grotesk','font-weight':700},g,l)});
+  this.needle=el('line',{x1:cx,y1:cy,x2:cx-R+30,y2:cy,stroke:'#ffc857','stroke-width':5,'stroke-linecap':'round'},g);el('circle',{cx,cy,r:9,fill:'#ffc857'},g);
+  el('text',{x:cx,y:cy-50,fill:'#ffc857','font-size':34,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700},g,'1.04 ± 0.05');el('text',{x:cx,y:cy-24,fill:'#9aa3c7','font-size':14,'text-anchor':'middle'},g,'measured by GRAVITY');this.ga=STILL?1.04:0},
+ draw(t){const c=this.c,W=900,H=640;c.clearRect(0,0,W,H);
+  this.ga+=(1.04-this.ga)*0.03;const a=Math.PI*(1-this.ga/1.4);this.needle.setAttribute('x2',260+150*Math.cos(a));this.needle.setAttribute('y2',220-150*Math.sin(a));
+  const fx=450,fy=345,A=228,e=0.88,b=A*Math.sqrt(1-e*e);const P=7000;const el_=(performance.now()-this.t0)/P;const n=Math.floor(el_),f=el_-n;
+  const prec=this.mode==='einstein'?0.42:0;
+  const Mn=f*2*Math.PI;let E=Mn;for(let i=0;i<8;i++)E=E-(E-e*Math.sin(E)-Mn)/(1-e*Math.cos(E));
+  const xo=A*(Math.cos(E)-e),yo=b*Math.sin(E);const w=-2.4+(n+f)*prec;const x=fx+xo*Math.cos(w)-yo*Math.sin(w),y=fy+(xo*Math.sin(w)+yo*Math.cos(w))*0.62;
+  if(STILL&&this.trail.length===0){for(let q=0;q<4.6*P;q+=12){const el2=q/P,n2=Math.floor(el2),f2=el2-n2;let E2=f2*6.283;for(let i=0;i<8;i++)E2=E2-(E2-e*Math.sin(E2)-f2*6.283)/(1-e*Math.cos(E2));const w2=-2.4+(n2+f2)*prec;const x2=A*(Math.cos(E2)-e),y2=b*Math.sin(E2);this.trail.push([fx+x2*Math.cos(w2)-y2*Math.sin(w2),fy+(x2*Math.sin(w2)+y2*Math.cos(w2))*0.62])}}
+  this.trail.push([x,y]);if(this.trail.length>2600)this.trail.shift();
+  c.lineWidth=2;for(let i=1;i<this.trail.length;i++){const p0=this.trail[i-1],p1=this.trail[i];if(Math.hypot(p1[0]-p0[0],p1[1]-p0[1])>60)continue;c.strokeStyle=`rgba(79,216,255,${(i/this.trail.length)*0.85})`;c.beginPath();c.moveTo(...this.trail[i-1]);c.lineTo(...this.trail[i]);c.stroke()}
+  const g=c.createRadialGradient(fx,fy,0,fx,fy,40);g.addColorStop(0,'rgba(255,170,60,.6)');g.addColorStop(1,'rgba(255,170,60,0)');c.fillStyle=g;c.beginPath();c.arc(fx,fy,40,0,6.28);c.fill();c.fillStyle='#000';c.beginPath();c.arc(fx,fy,10,0,6.28);c.fill();c.strokeStyle='#ff9a3c';c.lineWidth=2;c.stroke();
+  c.fillStyle='#ffc857';c.font='600 16px Space Grotesk';c.fillText('Sgr A* · 4 million Suns',fx+18,fy+36);
+  const sg=c.createRadialGradient(x,y,0,x,y,22);sg.addColorStop(0,'#fff');sg.addColorStop(.3,'#9eeaff');sg.addColorStop(1,'rgba(79,216,255,0)');c.fillStyle=sg;c.beginPath();c.arc(x,y,22,0,6.28);c.fill();c.fillStyle='#eef1ff';c.font='700 18px Space Grotesk';c.fillText('S2',x+16,y-12);
+  if(this.hl120){const px=fx+A*(1-e)*Math.cos(w),py=fy+A*(1-e)*Math.sin(w)*0.62;c.strokeStyle='rgba(255,200,87,.9)';c.setLineDash([5,5]);c.beginPath();c.moveTo(fx,fy);c.lineTo(px,py);c.stroke();c.setLineDash([]);c.fillStyle='#ffc857';c.font='700 18px Space Grotesk';c.fillText('120 AU',px-34,py-16)}
+  c.fillStyle='#9aa3c7';c.font='15px Inter';c.fillText(this.mode==='einstein'?'Einstein: each lap swings forward → a rosette':'Newton: the same closed ellipse, forever',20,H-18)},
+ cue(n){this.hl120=n==='closest';$('#ch120').classList.toggle('pulse',n==='closest');if(n==='newton')this.setMode('newton');if((n==='einstein'||n==='orbit')&&this.mode!=='einstein')this.setMode('einstein');
+  $('#gauge').classList.toggle('pulse',n==='redshift');if(n==='redshift'&&!STILL)this.ga=0;$('#q5').classList.toggle('pulse',n==='ghez')},
+ reset(){this.hl120=false;$$('#s5 .pulse').forEach(e=>e.classList.remove('pulse'));this.setMode('einstein')}};
+/* 6 IXPE */
+S[5]={init(){const s=$('#ix');
+  const d=el('defs',{},s);const dg=el('linearGradient',{id:'ixd',x1:0,x2:1},d);[[0,'#ff6a1a',0],[.35,'#ffb347',.9],[.5,'#fff2c8',1],[.65,'#ffb347',.9],[1,'#ff6a1a',0]].forEach(([o,c,a])=>el('stop',{offset:o,'stop-color':c,'stop-opacity':a},dg));
+  const cg=el('radialGradient',{id:'cor'},d);el('stop',{offset:0,'stop-color':'#e6dcff','stop-opacity':.95},cg);el('stop',{offset:1,'stop-color':'#b197ff','stop-opacity':0},cg);
+  const jg=el('linearGradient',{id:'ixj',x1:0,y1:1,x2:0,y2:0},d);el('stop',{offset:0,'stop-color':'#9eeaff','stop-opacity':.85},jg);el('stop',{offset:1,'stop-color':'#4fd8ff','stop-opacity':0},jg);
+  const jg2=el('linearGradient',{id:'ixj2',x1:0,y1:0,x2:0,y2:1},d);el('stop',{offset:0,'stop-color':'#9eeaff','stop-opacity':.85},jg2);el('stop',{offset:1,'stop-color':'#4fd8ff','stop-opacity':0},jg2);
+  el('circle',{cx:95,cy:215,r:70,fill:'#ffb35c',opacity:.9},s);el('text',{x:95,y:315,fill:'#9aa3c7','font-size':14,'text-anchor':'middle'},s,'companion star');
+  el('path',{d:'M162 200 Q 380 160 560 232',stroke:'#ff9a3c','stroke-width':6,fill:'none',opacity:.6,'stroke-dasharray':'4 8'},s);
+  const cx=600,cy=235;
+  el('polygon',{points:`${cx-10},${cy} ${cx+10},${cy} ${cx+26},15 ${cx-26},15`,fill:'url(#ixj)'},s);
+  el('polygon',{points:`${cx-10},${cy} ${cx+10},${cy} ${cx+26},455 ${cx-26},455`,fill:'url(#ixj2)'},s);
+  el('ellipse',{cx,cy,rx:300,ry:22,fill:'url(#ixd)'},s);
+  this.flat=el('ellipse',{cx,cy,rx:120,ry:24,fill:'url(#cor)',style:'transition:opacity .6s'},s);
+  this.lamp=el('circle',{cx,cy:cy-90,r:42,fill:'url(#cor)',style:'transition:opacity .6s'},s);
+  el('circle',{cx,cy,r:16,fill:'#000',stroke:'#ff9a3c','stroke-width':2},s);
+  el('text',{x:cx+36,y:40,fill:'#4fd8ff','font-size':15,'font-family':'Space Grotesk'},s,'JET (seen in radio)');el('text',{x:cx-290,y:cy+50,fill:'#ffb347','font-size':15,'font-family':'Space Grotesk'},s,'ACCRETION DISK');
+  this.corLbl=el('text',{x:cx-250,y:cy-120,fill:'#b197ff','font-size':17,'font-family':'Space Grotesk','font-weight':700},s,'');
+  const mk=el('marker',{id:'ah',viewBox:'0 0 10 10',refX:5,refY:5,markerWidth:4,markerHeight:4,orient:'auto-start-reverse'},d);el('path',{d:'M0 0L10 5L0 10z',fill:'#fff'},mk);
+  const mk2=el('marker',{id:'ah2',viewBox:'0 0 10 10',refX:5,refY:5,markerWidth:4,markerHeight:4,orient:'auto-start-reverse'},d);el('path',{d:'M0 0L10 5L0 10z',fill:'#ffc857'},mk2);
+  this.pred=el('line',{stroke:'#fff','stroke-width':4,'stroke-dasharray':'8 6','marker-start':'url(#ah)','marker-end':'url(#ah)'},s);
+  this.predLbl=el('text',{fill:'#fff','font-size':15,'font-family':'Space Grotesk'},s,'');
+  this.obs=[el('line',{x1:900,y1:140,x2:900,y2:330,stroke:'#ffc857','stroke-width':7,'marker-start':'url(#ah2)','marker-end':'url(#ah2)',style:'transition:opacity .6s'},s),
+   el('text',{x:900,y:122,fill:'#ffc857','font-size':17,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700,style:'transition:opacity .6s'},s,'IXPE ★'),
+   el('text',{x:890,y:360,fill:'#ffc857','font-size':14,'text-anchor':'middle',style:'transition:opacity .6s'},s,'4.0% · along the jet')];
+  el('text',{x:24,y:450,fill:'#9aa3c7','font-size':13},s,'Side view, illustration · arrows = polarization direction');
+  $$('#s6 [data-cor]').forEach(b=>b.onclick=()=>this.cor(b.dataset.cor));$('#obsBtn').onclick=()=>this.showObs(true);this.cor('flat');this.showObs(true)},
+ cor(m){this.m=m;$$('#s6 [data-cor]').forEach(b=>b.classList.toggle('on',b.dataset.cor===m));const lamp=m==='lamp';
+  this.lamp.style.opacity=lamp?1:0;this.flat.style.opacity=lamp?0:1;this.corLbl.textContent=lamp?'CORONA: lamp-post above the black hole':'CORONA: flat, hugging the disk';
+  const P=this.pred;if(lamp){P.setAttribute('x1',690);P.setAttribute('x2',850);P.setAttribute('y1',110);P.setAttribute('y2',110)}else{P.setAttribute('x1',790);P.setAttribute('x2',790);P.setAttribute('y1',150);P.setAttribute('y2',320)}
+  this.predLbl.setAttribute('x',lamp?690:650);this.predLbl.setAttribute('y',lamp?92:345);this.predLbl.textContent=lamp?'predicted: across the jet':'predicted: along the jet';
+  $('#ixFact').innerHTML=lamp?'<b style="font-size:22px">💡 Lamp-post</b><span>A hot ball floating above the black hole. Predicts polarization <i>across</i> the jet, and weaker than seen. ✗ Doesn\'t match.</span>':'<b style="font-size:22px">🥪 Flat corona</b><span>Hot gas spread along the inner disk. Predicts polarization <i>along</i> the jet. ✓ Matches IXPE.</span>'},
+ showObs(v){this.obs.forEach(e=>e.style.opacity=v?1:0);$('#obsBtn').classList.toggle('on',v)},
+ draw(t){const p=.88+.12*Math.sin(t/500);this.lamp.setAttribute('r',42*p);this.flat.setAttribute('rx',120*p)},
+ cue(n){if(n==='system'){this.cor('flat');this.showObs(false)}if(n==='lamppost'){this.cor('lamp');this.showObs(false)}if(n==='flat'){this.cor('flat');this.showObs(false)}if(n==='observed'){this.cor('flat');this.showObs(true)}
+  $('#ixOthers').classList.toggle('pulse',n==='others');$('#ixFact').classList.toggle('pulse',n==='lamppost'||n==='flat')},
+ reset(){this.cor('flat');this.showObs(true);$$('#s6 .pulse').forEach(e=>e.classList.remove('pulse'))}};
+/* 7 GW */
+S[6]={init(){this.c=$('#c7').getContext('2d');this.t0=performance.now()-(STILL?5200:0);$('#replay').onclick=()=>this.t0=performance.now();
+  const s=$('#gwbars');el('text',{x:20,y:32,fill:'#eef1ff','font-size':18,'font-family':'Space Grotesk','font-weight':700},s,'How heavy? (in Suns)');
+  const B=[["GW150914 · first ever (2015) · final black hole",62,'#9aa3c7'],["GW190521 · old record · total",140,'#9aa3c7'],["GW231123 · new record · final black hole",225,'#4fd8ff']];this.bars=[];
+  B.forEach((b,i)=>{const y=62+i*60;el('text',{x:20,y,fill:'#cfd5f5','font-size':15},s,b[0]);const r=el('rect',{x:20,y:y+8,width:0,height:24,rx:6,fill:b[2]},s);r.dataset.w=b[1]/225*420;el('text',{x:455,y:y+27,fill:b[2],'font-size':18,'font-family':'Space Grotesk','font-weight':700},s,'~'+b[1]);this.bars.push(r)});this.growBars()},
+ growBars(){this.bars.forEach(r=>{r.style.transition='none';r.setAttribute('width',STILL?r.dataset.w:0);if(!STILL)setTimeout(()=>{r.style.transition='width 1.6s ease';r.setAttribute('width',r.dataset.w)},60)})},
+ draw(t){const c=this.c,W=860,H=640;c.clearRect(0,0,W,H);const T=11000;const tt=((performance.now()-this.t0)%T+T)%T/1000;const tm=7;const cx=430,cy=250;
+  let amp=0,sep=0,ph=0;if(tt<tm){const tau=tm-tt;sep=Math.max(12,150*Math.pow(tau/tm,0.25));ph=-30*Math.pow(tau,0.62);amp=Math.pow(150/sep,1.3)}
+  for(let r=30;r<480;r+=26){const wob=tt<tm?Math.sin(r/30-tt*6)*amp*1.5:Math.sin(r/30-tt*6)*Math.exp(-(tt-tm)*1.5)*6;c.strokeStyle=`rgba(79,216,255,${0.13*(1-r/480)+0.04})`;c.lineWidth=1.5;c.beginPath();c.ellipse(cx,cy,Math.max(1,r+wob),Math.max(1,(r+wob)*0.42),0,0,6.28);c.stroke()}
+  if(tt<tm){const m1=140,m2=100;const r1=sep*m2/(m1+m2),r2=sep*m1/(m1+m2);
+   const p1=[cx+Math.cos(ph)*r1,cy+Math.sin(ph)*r1*0.42],p2=[cx-Math.cos(ph)*r2,cy-Math.sin(ph)*r2*0.42];
+   [[p1,30,'~140'],[p2,24,'~100']].forEach(([p,r,l])=>{const g=c.createRadialGradient(p[0],p[1],r*.6,p[0],p[1],r*2);g.addColorStop(0,'rgba(255,170,60,.7)');g.addColorStop(1,'rgba(255,170,60,0)');c.fillStyle=g;c.beginPath();c.arc(p[0],p[1],r*2,0,6.28);c.fill();c.fillStyle='#000';c.beginPath();c.arc(p[0],p[1],r,0,6.28);c.fill();if(sep>60){c.fillStyle='#ffc857';c.font='600 15px Space Grotesk';c.fillText(l,p[0]-14,p[1]-r-10)}})}
+  else{const r=40+4*Math.exp(-(tt-tm)*2)*Math.sin((tt-tm)*30);const g=c.createRadialGradient(cx,cy,r*.6,cx,cy,r*2.4);g.addColorStop(0,'rgba(255,200,100,.9)');g.addColorStop(1,'rgba(255,170,60,0)');c.fillStyle=g;c.beginPath();c.arc(cx,cy,r*2.4,0,6.28);c.fill();c.fillStyle='#000';c.beginPath();c.arc(cx,cy,r,0,6.28);c.fill();c.fillStyle='#ffc857';c.font='700 18px Space Grotesk';c.fillText('~225 Suns',cx-44,cy-r-18)}
+  const wy=540,wx0=40,wx1=820;c.strokeStyle='rgba(255,255,255,.12)';c.lineWidth=1;c.beginPath();c.moveTo(wx0,wy);c.lineTo(wx1,wy);c.stroke();
+  c.strokeStyle='#4fd8ff';c.lineWidth=2.5;c.beginPath();let first=true;
+  for(let i=0;i<=900;i++){const s=i/900*10;if(s>tt)break;let h;if(s<tm){const tau=tm-s+0.03;h=Math.pow(tau,-0.25)*0.5*Math.cos(30*Math.pow(tau,0.62)*2)}else{h=1.1*Math.exp(-(s-tm)*3)*Math.cos((s-tm)*30)}
+   const x=wx0+(s/10)*(wx1-wx0),y=wy-h*55;first?(c.moveTo(x,y),first=false):c.lineTo(x,y)}c.stroke();
+  c.fillStyle='#4fd8ff';c.font='600 14px Space Grotesk';c.fillText('GRAVITATIONAL-WAVE SIGNAL · ILLUSTRATION',wx0,wy-78);
+  c.fillStyle='#9aa3c7';c.font='15px Inter';c.fillText('The "chirp": waves grow taller and faster until the merger, then ring down',wx0,H-18)},
+ cue(n){if(n==='inspiral')this.t0=performance.now();$('#gwFact').classList.toggle('pulse',n==='record');$('#gwbars').classList.toggle('pulse',n==='bars');if(n==='bars')this.growBars();$('#aside').classList.toggle('pulse',n==='aside');
+  if(n==='spin')$('#q7').innerHTML='"It\'s an excellent case study for pushing forward the development of our theoretical tools."<cite>— Charlie Hoy, University of Portsmouth</cite>';
+  else $('#q7').innerHTML='"Black holes this massive are forbidden through standard stellar evolution models."<cite>— Mark Hannam, Cardiff University</cite>';
+  $('#q7').classList.toggle('pulse',n==='bars'||n==='spin')},
+ reset(){$$('#s7 .pulse').forEach(e=>e.classList.remove('pulse'))}};
+/* 8 synthesis */
+const SYN=[["Infrared astronomy","Webb (JWST) · NIRSpec","Early galaxies, little red dots","Übler, Maiolino, D'Eugenio, Naidu","Baby giants; 3 black holes in one galaxy",2,'#ff5a6e'],
+ ["Radio imaging","Event Horizon Telescope","Sgr A* and M87*","Issaoun, De Laurentis, Ricarte","The same ordered magnetic spiral",3,'#ffc857'],
+ ["Stellar orbits","Keck · VLT GRAVITY","Star S2 around Sgr A*","Ghez, Genzel","Einstein's rosette and redshift confirmed",4,'#4fd8ff'],
+ ["X-ray polarimetry","IXPE","Cygnus X-1 and other X-ray binaries","Krawczynski, Veledina, Rawat","A flat corona along the disk",5,'#b197ff'],
+ ["Gravitational waves","LIGO · Virgo · KAGRA","GW231123, GW250114","Hannam, Hoy, Carullo","Heaviest merger; Hawking's area rule holds",6,'#4fd8ff']];
+S[7]={init(){const tb=$('#synBody');SYN.forEach(r=>{const tr=document.createElement('tr');tr.className='row';tr.style.setProperty('--c',r[6]);tr.innerHTML=r.slice(0,5).map(x=>`<td>${x}</td>`).join('');tr.onclick=()=>go(r[5]);tb.appendChild(tr)})},
+ cue(n){$$('#synBody tr').forEach((tr,i)=>tr.classList.toggle('pulse',n==='r'+i))},reset(){this.cue('')}};
+/* 9 open */
+S[8]={init(){const s=$('#road');el('line',{x1:40,y1:80,x2:1420,y2:80,stroke:'rgba(255,255,255,.25)','stroke-width':3},s);
+  [[130,'NOW · Oct 2026','You are here','#ff9a3c'],[520,'Next decade','EHT upgrades → black hole movies','#ffc857'],[910,'2nd half of 2027','Einstein Telescope site decision','#4fd8ff'],[1290,'2035','LISA launch: 3 spacecraft listen from space','#b197ff']]
+  .forEach(([x,a,b,c])=>{el('circle',{cx:x,cy:80,r:12,fill:c},s);el('text',{x,y:50,fill:c,'font-size':20,'text-anchor':'middle','font-family':'Space Grotesk','font-weight':700},s,a);el('text',{x,y:122,fill:'#cfd5f5','font-size':17,'text-anchor':'middle'},s,b)})},
+ cue(n){$$('#s9 .qc').forEach(q=>q.classList.toggle('pulse',n==='q'+q.dataset.q));$('#road').classList.toggle('pulse',n==='road')},reset(){this.cue('')}};
+/* 10 quiz */
+const QZ=[["How many feeding supermassive black holes did Webb find in galaxy J0148-4214?",["One","Two","Three","Five"],2,"Three: a central pair of ~80 million and ~0.6 million Suns, plus a ~2 million-Sun one in the outskirts."],
+ ["What did the first polarized image of our galaxy's black hole, Sgr A*, reveal?",["A giant jet","A spiral of strong, ordered magnetic fields","A second black hole","Nothing new"],1,"A twisted, organized magnetic field, strikingly similar to M87*'s."],
+ ["In Einstein's gravity, what shape does star S2's orbit trace over many laps?",["A closed ellipse","A rosette (flower)","A straight line","A perfect circle"],1,"Each lap swings forward about 12 arcminutes, drawing a rosette. Newton's closed ellipse is ruled out."],
+ ["What did IXPE reveal about the hot corona around Cygnus X-1?",["It's a ball floating above the black hole","It's flat, spread along the disk","It's inside the event horizon","There isn't one"],1,"The polarization lined up with the jet, which fits a flat, extended corona, not a lamp-post."],
+ ["About how massive was the final black hole from GW231123?",["~62 Suns","~140 Suns","~225 Suns","~4 million Suns"],2,"About 225 Suns: the most massive black hole merger ever detected with gravitational waves."]];
+S[9]={init(){this.reset();$('#qnext').onclick=()=>{this.i++;this.render()};$('#qreset').onclick=()=>this.reset()},
+ reset(){this.i=0;this.sc=0;this.render()},
+ upd(){$('#ring').setAttribute('stroke-dasharray',`${this.sc/5*566} 566`);$('#score').textContent=`${this.sc}/5`},
+ render(){this.upd();if(this.i>=QZ.length){$('#qn').textContent='Finished!';$('#qq').textContent=this.sc===5?'Perfect score: officially event-horizon certified.':`You scored ${this.sc} out of 5. Try again any time!`;$('#qo').innerHTML='';$('#qf').textContent='';$('#qnext').style.display='none';$('#qmsg').textContent='Final score';return}
+  const [q,o,a,ex]=QZ[this.i];$('#qn').textContent=`Question ${this.i+1} of 5`;$('#qq').textContent=q;$('#qf').textContent='';$('#qnext').style.display='none';$('#qmsg').textContent='Score';
+  const box=$('#qo');box.innerHTML='';let done=false;o.forEach((t,k)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>{if(done)return;done=true;
+   box.children[a].classList.add('right');if(k!==a)b.classList.add('wrong');else this.sc++;$('#qf').textContent=(k===a?'✓ Correct! ':'✗ Not quite. ')+ex;$('#qnext').style.display='inline-block';$('#qnext').textContent=this.i<4?'Next question →':'See your score →';this.upd()};box.appendChild(b)})},
+ cue(){}};
+S[10]={cue(){}};
+for(const id of ['#srcA','#srcB']){const ol=$(id);SOURCES.forEach(([t,u])=>{const li=document.createElement('li');li.innerHTML=`${t}<br><a href="${u}" target="_blank" rel="noopener">${u}</a>`;ol.appendChild(li)})}
+/* ---------- engine ---------- */
+const slides=$$('.slide');const N=slides.length;let cur=0,started=false,playing=false,auto=true,cc=false,voiceMuted=false,useTTS=false,lastCue=-1,advTimer=null;
+const voice=$('#voice');
+for(let i=0;i<N;i++)S[i].init&&S[i].init();
+function srcFor(i){return AUDIO&&AUDIO[i]?AUDIO[i]:MANIFEST[i].audio}
+function renderScript(){$('#scrTitle').textContent=`${String(cur+1).padStart(2,'0')} · ${slides[cur].dataset.title}`;const b=$('#scrBody');b.innerHTML='';MANIFEST[cur].cues.forEach((c,k)=>{const d=document.createElement('div');d.className='seg';d.textContent=c.text;d.onclick=()=>seekCue(k);b.appendChild(d)})}
+function markCue(k){const segs=$$('#scrBody .seg');segs.forEach((d,j)=>d.classList.toggle('cur',j===k));const c=MANIFEST[cur].cues[k];$('#cap').textContent=c?c.text:'';$('#cap').classList.toggle('show',cc&&!!c);if(segs[k]&&$('#script').classList.contains('open'))segs[k].scrollIntoView({block:'nearest',behavior:'smooth'})}
+function applyCue(k){if(k===lastCue)return;lastCue=k;const c=MANIFEST[cur].cues[k];if(c&&S[cur].cue)S[cur].cue(c.cue);markCue(k)}
+function go(i,fromAuto){if(i<0||i>=N)return;clearTimeout(advTimer);stopTTS();slides[cur].classList.remove('active');S[cur].reset&&S[cur].reset();cur=i;slides[cur].classList.add('active');lastCue=-1;
+ $('#progress').style.width=((cur+1)/N*100)+'%';$('#vprog').style.width='0';$('#counter').textContent=`${String(cur+1).padStart(2,'0')} / ${N}`;renderScript();markCue(-1);
+ if(STILL)return;voice.src=srcFor(cur);if(started&&(playing||fromAuto))playVoice();else setPlayIcon()}
+function playVoice(){playing=true;setPlayIcon();if(useTTS){speakFrom(Math.max(0,lastCue));return}
+ const p=voice.play();if(p)p.catch(err=>{if(err.name==='NotAllowedError'){playing=false;setPlayIcon()}else if(err.name!=='AbortError'){useTTS=true;speakFrom(0)}})}
+function pauseVoice(){playing=false;voice.pause();if(useTTS){stopTTS()}setPlayIcon();duck(false)}
+function setPlayIcon(){$('#play').textContent=playing?'❚❚':'▶'}
+voice.addEventListener('timeupdate',()=>{const cs=MANIFEST[cur].cues;let k=-1;for(let j=0;j<cs.length;j++)if(voice.currentTime>=cs[j].t)k=j;if(k>=0)applyCue(k);$('#vprog').style.width=(voice.currentTime/(voice.duration||1)*100)+'%'});
+voice.addEventListener('playing',()=>duck(true));voice.addEventListener('pause',()=>duck(false));
+voice.addEventListener('ended',()=>{duck(false);if(auto&&cur<N-1&&cur!==9)advTimer=setTimeout(()=>go(cur+1,true),1500);else{playing=false;setPlayIcon()}});
+voice.addEventListener('error',()=>{if(started&&!useTTS&&voice.getAttribute('src')){useTTS=true;if(playing)speakFrom(0)}});
+function seekCue(k){if(useTTS){speakFrom(k);playing=true;setPlayIcon();return}lastCue=-1;applyCue(k);try{voice.currentTime=MANIFEST[cur].cues[k].t+0.01}catch(e){}if(started)playVoice()}
+let ttsGen=0;function stopTTS(){ttsGen++;try{speechSynthesis.cancel()}catch(e){}}
+function pickVoice(){const vs=speechSynthesis.getVoices();return vs.find(v=>/^en/i.test(v.lang)&&/(male|daniel|george|ryan|guy|david|alex|fred|christopher)/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))}
+function speakFrom(k){if(!('speechSynthesis' in window))return;stopTTS();const g=ttsGen;const cs=MANIFEST[cur].cues;
+ const say=j=>{if(g!==ttsGen)return;if(j>=cs.length){duck(false);if(auto&&cur<N-1&&cur!==9)advTimer=setTimeout(()=>go(cur+1,true),1500);else{playing=false;setPlayIcon()}return}
+  const u=new SpeechSynthesisUtterance(cs[j].text);u.pitch=0.6;u.rate=0.92;u.volume=voiceMuted?0:1;const v=pickVoice();if(v)u.voice=v;u.onstart=()=>{lastCue=-1;applyCue(j);duck(true)};u.onend=()=>say(j+1);speechSynthesis.speak(u)};say(k)}
+/* ambient music: synthesized live with Web Audio (no recordings) */
+let AC=null,musicGain=null,musicVol=.5,musicOn=true,ducked=false;
+const DB=d=>Math.pow(10,d/20);const MUSIC_BASE=DB(-25),MUSIC_DUCK=DB(-29);
+function initMusic(){if(AC)return;try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return}
+ musicGain=AC.createGain();musicGain.gain.value=0;musicGain.connect(AC.destination);
+ const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=420;lp.Q.value=3;lp.connect(musicGain);
+ const lfo=AC.createOscillator();lfo.frequency.value=0.035;const lfoG=AC.createGain();lfoG.gain.value=200;lfo.connect(lfoG);lfoG.connect(lp.frequency);lfo.start();
+ [[55,0,'sine',.5],[82.41,4,'sine',.3],[110,-6,'triangle',.12],[164.8,3,'sine',.05]].forEach(([f,det,type,g])=>{const o=AC.createOscillator();o.type=type;o.frequency.value=f;o.detune.value=det;const og=AC.createGain();og.gain.value=g;
+  const tr=AC.createOscillator();tr.frequency.value=0.05+Math.random()*0.08;const tg=AC.createGain();tg.gain.value=g*0.4;tr.connect(tg);tg.connect(og.gain);tr.start();o.connect(og);og.connect(lp);o.start()});
+ const len=AC.sampleRate*4,buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);let last=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+0.02*w)/1.02;d[i]=last*3.2}
+ const ns=AC.createBufferSource();ns.buffer=buf;ns.loop=true;const nf=AC.createBiquadFilter();nf.type='lowpass';nf.frequency.value=300;const ng=AC.createGain();ng.gain.value=.22;ns.connect(nf);nf.connect(ng);ng.connect(musicGain);ns.start();
+ setMusic(5)}
+function musicTarget(){return musicOn?musicVol/0.5*(ducked?MUSIC_DUCK:MUSIC_BASE):0}
+function setMusic(ramp=1.2){if(!AC)return;const t=AC.currentTime;musicGain.gain.cancelScheduledValues(t);musicGain.gain.setValueAtTime(musicGain.gain.value,t);musicGain.gain.linearRampToValueAtTime(musicTarget(),t+ramp)}
+function duck(on){ducked=on;setMusic(on?0.6:1.8)}
+function start(){if(started)return;started=true;$('#start').classList.add('gone');initMusic();AC&&AC.resume();if(!voice.getAttribute('src'))voice.src=srcFor(cur);playVoice()}
+$('#start').onclick=e=>{e.stopPropagation();start()};
+$('#play').onclick=()=>{if(!started){start();return}playing?pauseVoice():playVoice()};
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#vmute').onclick=()=>{voiceMuted=!voiceMuted;voice.muted=voiceMuted;$('#vmute').textContent=voiceMuted?'🔇 Voice':'🔊 Voice';$('#vmute').classList.toggle('on',voiceMuted)};
+$('#mvol').oninput=e=>{musicVol=e.target.value/100;if(!AC)initMusic();setMusic(.2)};
+$('#mmute').onclick=()=>{musicOn=!musicOn;$('#mmute').textContent=musicOn?'Music on':'Music off';$('#mmute').classList.toggle('on',!musicOn);if(!AC&&musicOn)initMusic();setMusic(.8)};
+$('#auto').onclick=()=>{auto=!auto;$('#auto').classList.toggle('on',auto)};
+$('#ccBtn').onclick=()=>{cc=!cc;$('#ccBtn').classList.toggle('on',cc);markCue(lastCue)};
+$('#scrBtn').onclick=()=>{$('#script').classList.toggle('open');$('#scrBtn').classList.toggle('on')};
+$('#srcBtn').onclick=()=>$('#srcpanel').classList.toggle('open');$('#srcClose').onclick=()=>$('#srcpanel').classList.remove('open');
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const k=e.key;if(k==='ArrowRight'||k==='PageDown')go(cur+1);else if(k==='ArrowLeft'||k==='PageUp')go(cur-1);else if(k===' '){e.preventDefault();$('#play').click()}else if(/^s$/i.test(k))$('#scrBtn').click();else if(/^m$/i.test(k))$('#vmute').click();else if(/^a$/i.test(k))$('#auto').click();else if(/^c$/i.test(k))$('#ccBtn').click();else if(k==='Home')go(0);else if(k==='End')go(N-1)});
+let tx0=null;$('#stage').addEventListener('touchstart',e=>tx0=e.touches[0].clientX,{passive:true});$('#stage').addEventListener('touchend',e=>{if(tx0==null)return;const dx=e.changedTouches[0].clientX-tx0;if(Math.abs(dx)>60)go(cur+(dx<0?1:-1));tx0=null});
+function loop(t){drawStars(t);S[cur].draw&&S[cur].draw(t);requestAnimationFrame(loop)}
+const s0=Math.max(0,Math.min(N-1,(+params.get('s')||1)-1));
+go(s0);
+if(params.has('c')){const k=+params.get('c');for(let j=0;j<=k;j++){lastCue=-1;applyCue(j)}if(params.has('cc')){cc=true;markCue(k)}}
+if(params.has('script')){$('#script').classList.add('open')}
+if(STILL)$('#start').classList.add('gone');
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
